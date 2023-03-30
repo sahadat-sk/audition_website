@@ -19,11 +19,40 @@ export const MONGODB_URI = prod
   : process.env['MONGODB_URI_LOCAL'];
 
 export const ACCESS_TOKEN_SECRET = process.env['ACCESS_TOKEN_SECRET'] || '';
+
 if (!ACCESS_TOKEN_SECRET) {
   logger.error(
     'No access token private key. Set ACCESS_TOKEN_SECRET environment variable.'
   );
   process.exit(1);
+}
+
+export const REFRESH_TOKEN_SECRET = process.env['REFRESH_TOKEN_SECRET'] || '';
+if (!REFRESH_TOKEN_SECRET) {
+  logger.error('No refresh token secret found in enviorment variable.');
+  process.exit(1);
+}
+
+export const GOOGLE_OAUTH_CLIENT_ID =
+  process.env['GOOGLE_OAUTH_CLIENT_SECRET'] || '';
+
+if (!GOOGLE_OAUTH_CLIENT_ID) {
+  logger.error('No google oauth client id found in environment variable');
+}
+
+export const GOOGLE_OAUTH_CLIENT_SECRET =
+  process.env['GOOGLE_OAUTH_CLIENT_SECRET'] || '';
+
+if (!GOOGLE_OAUTH_CLIENT_SECRET) {
+  logger.error('NO Google oauth client secret in enviroment varible');
+  process.exit(1);
+}
+
+export const GOOGLE_OAUTH_REDIRECT_URL =
+  process.env['GOOGLE_OAUTH_REDIRECT_URL'] || '';
+
+if (!GOOGLE_OAUTH_REDIRECT_URL) {
+  logger.error('No Google oauth redirect url found in enviroment variable');
 }
 
 if (!MONGODB_URI) {

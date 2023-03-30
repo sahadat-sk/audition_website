@@ -11,6 +11,7 @@ export const deserializeUser = async (
 ) => {
   try {
     let accessToken;
+
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith('Bearer')
@@ -25,7 +26,7 @@ export const deserializeUser = async (
 
     logger.debug('access token: ' + accessToken);
 
-    const decoded = verifyJWT<{ sub: string }>(accessToken);
+    const decoded = verifyJWT<{ sub: string }>(accessToken, 'access');
 
     if (!decoded) {
       return next(createHttpError(401, 'Invalid token or user does not exist'));
