@@ -18,6 +18,14 @@ export const MONGODB_URI = prod
   ? process.env['MONGODB_URI']
   : process.env['MONGODB_URI_LOCAL'];
 
+export const ACCESS_TOKEN_SECRET = process.env['ACCESS_TOKEN_SECRET'] || '';
+if (!ACCESS_TOKEN_SECRET) {
+  logger.error(
+    'No access token private key. Set ACCESS_TOKEN_SECRET environment variable.'
+  );
+  process.exit(1);
+}
+
 if (!MONGODB_URI) {
   if (prod) {
     logger.error(
