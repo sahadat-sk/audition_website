@@ -8,7 +8,8 @@ import { ENVIRONMENT } from './utils/secrets';
 import cors from 'cors';
 import config from 'config';
 import userRoutes from './routers/user.route';
-import autRoutes from './routers/auth.route';
+import authRoutes from './routers/auth.route';
+import sessionRoutes from './routers/session.route';
 
 const app = express();
 
@@ -32,7 +33,8 @@ app.set('port', process.env.PORT || 5000);
 app.set('env', process.env.NODE_ENV || 'development');
 
 app.use('/api/users', userRoutes);
-app.use('/api/auth', autRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/sessions', sessionRoutes);
 
 app.get('/ping', async (req: Request, res: Response) => {
   res.status(200).json({ message: 'pong' });

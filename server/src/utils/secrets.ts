@@ -34,7 +34,7 @@ if (!REFRESH_TOKEN_SECRET) {
 }
 
 export const GOOGLE_OAUTH_CLIENT_ID =
-  process.env['GOOGLE_OAUTH_CLIENT_SECRET'] || '';
+  process.env['GOOGLE_OAUTH_CLIENT_ID'] || '';
 
 if (!GOOGLE_OAUTH_CLIENT_ID) {
   logger.error('No google oauth client id found in environment variable');

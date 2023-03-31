@@ -4,6 +4,7 @@ import { ENVIRONMENT } from '../utils/secrets';
 import { Request, Response, NextFunction } from 'express';
 import {
   createUser,
+  findAndUpdate,
   findUser,
   findUserById,
   signToken,
@@ -12,6 +13,10 @@ import createHttpError from 'http-errors';
 import { signJWT, verifyJWT } from '../utils/JWT';
 import redisClient from '../utils/connectRedis';
 import logger from '../utils/logger';
+import {
+  getGoogleOauthToken,
+  getGoogleUser,
+} from '../services/session.service';
 
 const accessTokenCookieOptions: CookieOptions = {
   httpOnly: true,
@@ -61,12 +66,15 @@ export const loginHandler = async (
 ) => {
   try {
     const user = await findUser({ email: req.body.email });
+
     if (
       !user ||
+      user.provider !== 'local' ||
       !(await user.comparePassword(user.password, req.body.password))
     ) {
       return next(createHttpError(401, 'Invalid credentials'));
     }
+
     const { access_token, refresh_token } = await signToken(user);
     res.cookie('access_token', access_token, accessTokenCookieOptions);
     res.cookie('refresh_token', refresh_token, refreshTokenCookieOptions);
@@ -130,8 +138,50 @@ export const refreshAccessTokenHandler = async (
       status: 'success',
       access_token,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     logger.error(err.message);
+    next(err);
+  }
+};
+
+export const googleOauthHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const code = req.query.code as string;
+    const pathUrl = (req.query.state as string) || '/';
+    if (!code) {
+      return next(createHttpError(401, 'Authorization code not provided'));
+    }
+    const { id_token, access_token } = await getGoogleOauthToken({ code });
+    const { name, verified_email, email } = await getGoogleUser({
+      id_token,
+      access_token,
+    });
+    if (!verified_email) {
+      return next(createHttpError(401, 'Email not verified'));
+    }
+    const user = await findAndUpdate(
+      { email },
+      { username: name, email, provider: 'Google' },
+      { upsert: true, new: true, runValidators: false, lean: true }
+    );
+    if (!user) {
+      return res.redirect(`${config.get<string>('origin')}/login`);
+    }
+    const { access_token: accessToken, refresh_token } = await signToken(user);
+    res.cookie('refresh_token', accessToken, refreshTokenCookieOptions);
+    res.cookie('access_token', refresh_token, accessTokenCookieOptions);
+    res.cookie('logged_in', true, {
+      expires: new Date(
+        Date.now() + config.get<number>('accessTokenExpiresIn') * 60 * 1000
+      ),
+    });
+    res.redirect(`${config.get<string>('origin')}${pathUrl}`);
+  } catch (err) {
     next(err);
   }
 };

@@ -1,6 +1,6 @@
 import config from 'config';
 import { DocumentType } from '@typegoose/typegoose';
-import { FilterQuery, QueryOptions } from 'mongoose';
+import { FilterQuery, QueryOptions, UpdateQuery } from 'mongoose';
 import userModel, { User } from '../models/user.model';
 import redisClient from '../utils/connectRedis';
 import { signJWT } from '../utils/JWT';
@@ -26,6 +26,14 @@ export const findUser = async (
   options?: QueryOptions
 ) => {
   return await userModel.findOne(query, {}, options).select('+password');
+};
+
+export const findAndUpdate = async (
+  query: FilterQuery<User>,
+  update: UpdateQuery<User>,
+  options?: QueryOptions
+) => {
+  return await userModel.findOneAndUpdate(query, update, options);
 };
 
 export const signToken = (user: DocumentType<User>) => {

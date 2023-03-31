@@ -27,6 +27,12 @@ export class User {
   @prop({ required: true, minlength: 6, maxlength: 20, select: false })
   password: string;
 
+  @prop({ default: false })
+  verified: boolean;
+
+  @prop({ default: 'local' })
+  provider: string;
+
   @prop({ default: 'user' })
   role: string;
 
