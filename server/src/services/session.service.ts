@@ -42,7 +42,6 @@ export const getGoogleOauthToken = async ({
     return data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    console.error('Failed to fetch Google Oauth Tokens');
     console.error(err);
     throw new Error(err);
   }

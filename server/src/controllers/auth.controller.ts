@@ -69,7 +69,7 @@ export const loginHandler = async (
 
     if (
       !user ||
-      user.provider !== 'local' ||
+      user.provider !== 'local' || // if user is not registered with local strategy
       !(await user.comparePassword(user.password, req.body.password))
     ) {
       return next(createHttpError(401, 'Invalid credentials'));
@@ -88,10 +88,26 @@ export const loginHandler = async (
   }
 };
 
-export const logout = (res: Response) => {
-  res.cookie('access_token', '', { maxAge: 1 });
-  res.cookie('refresh_token', '', { maxAge: 1 });
-  res.cookie('logged_in', '', { maxAge: 1 });
+export const logoutHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await redisClient.flushDb();
+
+    res.cookie('access_token', '', { maxAge: 1 });
+    res.cookie('refresh_token', '', { maxAge: 1 });
+    res.cookie('logged_in', '', { maxAge: 1 });
+
+    res.status(200).json({ status: 'success' });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    logger.error(err.message);
+    next(err);
+  }
+
+  // res.redirect(`${config.get<string>('origin')}/login`);
 };
 
 export const refreshAccessTokenHandler = async (

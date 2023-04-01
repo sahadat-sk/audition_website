@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   loginHandler,
+  logoutHandler,
   refreshAccessTokenHandler,
   registerHandler,
 } from '../controllers/auth.controller';
@@ -19,6 +20,6 @@ router.get('/refresh', refreshAccessTokenHandler);
 
 router.use(deserializeUser, requireUser);
 
-router.get('/logout', loginHandler);
+router.get('/logout', logoutHandler);
 
 export default router;
