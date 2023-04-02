@@ -44,7 +44,8 @@ app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(createHttpError(404, 'Not Found'));
 });
 
-app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
   console.error(err);
   let errorMessage = 'An Unknown error occurred!';
   let statusCode = 500;
