@@ -1,5 +1,6 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from './secrets';
+import logger from './logger';
 
 export const signJWT = (
   payload: object,
@@ -27,7 +28,8 @@ export const verifyJWT = <T>(
     } else {
       return jwt.verify(token, REFRESH_TOKEN_SECRET) as T;
     }
-  } catch (err) {
+  } catch (err: any) {
+    logger.error(err.message);
     return null;
   }
 };

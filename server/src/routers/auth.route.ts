@@ -20,6 +20,6 @@ router.get('/refresh', refreshAccessTokenHandler);
 
 router.use(deserializeUser, requireUser);
 
-router.get('/logout', logoutHandler);
+router.post('/logout', logoutHandler);
 
 export default router;
