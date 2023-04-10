@@ -1,4 +1,8 @@
 export default function Loading() {
   // You can add any UI inside Loading, including a Skeleton.
-  return <>Hi babes</>;
+  return (
+    <>
+      <p>Hello thisis the loading state</p>
+    </>
+  );
 }

@@ -11,7 +11,7 @@ export default function QuestionsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthGuard>
+    <AuthGuard allowedRoles={['user']}>
       <>{children}</>
     </AuthGuard>
   );

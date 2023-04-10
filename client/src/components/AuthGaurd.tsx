@@ -5,7 +5,12 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import axios from '../lib/axios';
 
-export function AuthGuard({ children }: { children: JSX.Element }) {
+type Props = {
+  allowedRoles: string[];
+  children: JSX.Element;
+};
+
+export function AuthGuard(props: Props) {
   const { auth, setAuth } = useAuth() as {
     auth: any;
     setAuth: any;
@@ -33,6 +38,9 @@ export function AuthGuard({ children }: { children: JSX.Element }) {
         if (!user.email) {
           router.push('/login');
         }
+        if (!props.allowedRoles.includes(user.role)) {
+          router.push('/');
+        }
         setAuth({
           accessToken: response?.data?.access_token,
           user,
@@ -47,7 +55,7 @@ export function AuthGuard({ children }: { children: JSX.Element }) {
 
   /* show loading indicator while the auth provider is still initializing */
   if (auth?.user?.email) {
-    return <>{children}</>;
+    return <>{props.children}</>;
   }
 
   /* otherwise don't return anything, will do a redirect from useEffect */
