@@ -1,14 +1,15 @@
-import { Inter } from 'next/font/google';
+import LargeHeading from '@/components/ui/LargeHeading';
+import Paragraph from '@/components/ui/Paragraph';
 import Image from 'next/image';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   return (
     <main>
-      <div>
-        <div></div>
-        <Image src="/images/hero.svg" alt="hero" quality={100}></Image>
+      <div className="flex dark:text-onBgDark  justify-between items-center ">
+        <LargeHeading size="lg">Welcome to glug auditions</LargeHeading>
+        <div className="relative w-1/3 h-full">
+          <Image fill src="/images/hero.svg" alt="hero"></Image>
+        </div>
       </div>
     </main>
   );
