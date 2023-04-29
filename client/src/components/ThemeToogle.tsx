@@ -5,21 +5,27 @@ import { Switch } from '@headlessui/react';
 import { cn } from '@/utils/cn';
 import { useTheme } from 'next-themes';
 import { Sun, Moon } from 'lucide-react';
-export default function Example() {
-  const [enabled, setEnabled] = useState(false);
-  const { setTheme } = useTheme();
+export default function ThemeToogle() {
+  const { theme, setTheme } = useTheme();
+  const [enabled, setEnabled] = useState<boolean>();
   useEffect(() => {
-    if (enabled) {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  }, [enabled]);
+    setEnabled(localStorage.getItem('enabled') === 'true');
+    setTheme(localStorage.getItem('theme') || 'light');
+  }, []);
+
+  const handleThemeChange = () => {
+    setEnabled((prev) => {
+      setTheme(prev ? 'light' : 'dark');
+      localStorage.setItem('theme', prev ? 'light' : 'dark');
+      localStorage.setItem('enabled', prev ? 'false' : 'true');
+      return !prev;
+    });
+  };
 
   return (
     <Switch
       checked={enabled}
-      onChange={setEnabled}
+      onChange={handleThemeChange}
       className={cn(
         enabled ? 'bg-bgDark' : 'bg-bg',
         'relative inline-flex flex-shrink-0 p-1  w-12 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 '
