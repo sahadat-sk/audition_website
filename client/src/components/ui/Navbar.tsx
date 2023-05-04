@@ -5,6 +5,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import ThemeToogle from '../ThemeToogle';
 import { cn } from '@/utils/cn';
 import { XIcon, MenuIcon } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Navbar() {
   return (
@@ -29,7 +30,10 @@ export default function Navbar() {
                     alt="Glug"
                   />
                 </div>
-                <h2 className="font-bold text-lg">Auditions</h2>
+
+                <Link href="/">
+                  <h2 className="font-bold text-lg">Auditions</h2>
+                </Link>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}

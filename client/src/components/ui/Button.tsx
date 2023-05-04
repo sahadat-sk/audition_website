@@ -24,6 +24,7 @@ const buttonVariants = cva(
         blue: 'bg-blue text-onBlue dark:bg-blueDark dark:text-onBlueDark',
         red: 'bg-red text-onRed dark:bg-redDark dark:text-onRedDark',
         green: 'bg-green text-onGreen dark:bg-greenDark dark:text-onGreenDark',
+        transparent: 'bg-transparent border border-outline ',
       },
       size: {
         default: 'h-10 px-4 py-2',

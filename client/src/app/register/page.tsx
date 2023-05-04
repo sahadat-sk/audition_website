@@ -1,7 +1,10 @@
-import LoginForm from '@/components/ui/auth/LoginForm';
+import Card from '@/components/ui/Card';
+import RegisterForm from '@/components/ui/auth/RegisterForm';
+import { getGoogleUrl } from '@/utils/getGoogleUrl';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
-const Login = () => {
+const Register = () => {
   return (
     <div className="h-screen">
       <div className="flex flex-col gap-8 md:gap-0   md:flex-row items-center justify-center md:justify-between h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,11 +17,11 @@ const Login = () => {
         </div>
 
         <div className="flex flex-col gap-2 items-center md:w-1/3">
-          <LoginForm />
+          <RegisterForm />
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;

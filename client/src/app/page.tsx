@@ -23,6 +23,9 @@ export default function Home() {
           <Link href="/login">
             <Button>Get Started</Button>
           </Link>
+          <Link href="/register">
+            <Button>Register</Button>
+          </Link>
         </div>
       </div>
     </main>
