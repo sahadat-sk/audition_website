@@ -24,8 +24,14 @@ export class User {
   @prop({ unique: true, required: true })
   email: string;
 
-  @prop({ required: true, minlength: 6, maxlength: 20, select: false })
+  @prop({ minlength: 6, maxlength: 20, select: false })
   password: string;
+
+  @prop({length: 8})
+  rollNumber: string;
+  
+  @prop({length: 10})
+  contactNumber: string;
 
   @prop({ default: false })
   verified: boolean;

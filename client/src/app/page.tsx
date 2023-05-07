@@ -20,11 +20,8 @@ export default function Home() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit
             amet
           </Paragraph>
-          <Link href="/login">
-            <Button>Get Started</Button>
-          </Link>
           <Link href="/register">
-            <Button>Register</Button>
+            <Button>Begin your journey</Button>
           </Link>
         </div>
       </div>

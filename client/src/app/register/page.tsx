@@ -1,7 +1,4 @@
-import Card from '@/components/ui/Card';
 import RegisterForm from '@/components/ui/auth/RegisterForm';
-import { getGoogleUrl } from '@/utils/getGoogleUrl';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const Register = () => {

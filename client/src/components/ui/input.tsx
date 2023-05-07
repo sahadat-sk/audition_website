@@ -4,10 +4,11 @@ import * as React from 'react';
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  errMsg?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, ...props }, ref) => {
+  ({ className, type, label, errMsg, ...props }, ref) => {
     return (
       <div>
         <label htmlFor="email" className="block  text-sm font-medium mb-1">
@@ -22,6 +23,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           {...props}
         />
+        {errMsg && errMsg.length > 0 ? (
+          <p className="text-sm text-red dark:text-redDark">{errMsg}</p>
+        ) : null}
       </div>
     );
   }

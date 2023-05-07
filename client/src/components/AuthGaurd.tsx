@@ -49,6 +49,7 @@ export function AuthGuard(props: Props) {
         router.push('/login');
       }
     };
+    console.log('authguard running ');
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth?.user?.email]);

@@ -28,6 +28,7 @@ export const verifyJWT = <T>(
     } else {
       return jwt.verify(token, REFRESH_TOKEN_SECRET) as T;
     }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     logger.error(err.message);
     return null;
