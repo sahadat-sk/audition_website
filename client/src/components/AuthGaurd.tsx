@@ -36,6 +36,7 @@ export function AuthGuard(props: Props) {
           role: data?.data?.user?.role,
           email: data?.data?.user?.email,
           username: data?.data?.user?.username,
+          avatar: data?.data?.user?.avatar,
         };
         if (!user.email) {
           router.push('/login');

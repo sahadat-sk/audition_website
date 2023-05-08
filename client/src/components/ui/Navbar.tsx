@@ -6,6 +6,43 @@ import ThemeToogle from '../ThemeToogle';
 import { cn } from '@/utils/cn';
 import { XIcon, MenuIcon } from 'lucide-react';
 import Link from 'next/link';
+import useAuth from '@/hooks/useAuth';
+
+function Avatar() {
+  const { auth } = useAuth() as { auth: any };
+  return (
+    <img
+      className="h-8 w-8 rounded-full"
+      src={`https://api.dicebear.com/6.x/bottts-neutral/svg?seed=%${auth.user.email}`}
+      alt=""
+    />
+  );
+}
+
+function MenuItems({
+  title,
+  href,
+  role = 'user',
+}: {
+  title: string;
+  href: string;
+  role?: 'user' | 'admin' | 'mod';
+}) {
+  const { auth } = useAuth() as { auth: any };
+  if (auth.user.role !== role) {
+    return null;
+  }
+  return (
+    <>
+      <Link
+        href={`${href}`}
+        className="hover:text-primary dark:hover:text-primaryDark px-3 py-2 rounded-md text-sm font-medium"
+      >
+        {title}
+      </Link>
+    </>
+  );
+}
 
 export default function Navbar() {
   return (
@@ -37,50 +74,39 @@ export default function Navbar() {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-                    <a
-                      href="#"
-                      className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                      Dashboard
-                    </a>
-                    <a
-                      href="#"
-                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                      Team
-                    </a>
-                    <a
-                      href="#"
-                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                      Projects
-                    </a>
-                    <a
-                      href="#"
-                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                      Calendar
-                    </a>
+                    <MenuItems title="Admin Dashboard" href="/" role="admin" />
+                    <MenuItems
+                      title="Manage Players"
+                      href="/team"
+                      role="admin"
+                    />
+                    <MenuItems
+                      title="Questions"
+                      href="/auditions"
+                      role="user"
+                    />
+                    <MenuItems
+                      title="Manage Questions"
+                      href="/questions"
+                      role="admin"
+                    />
+                    <MenuItems title="Rules" href="/auditions" role="user" />
                   </div>
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex items-center">
-                  <div className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                  <div>
                     <span className="sr-only">Theme Toogle</span>
                     <ThemeToogle />
                   </div>
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="ml-3 relative">
-                    <div>
+                    <div className="ml-2">
                       <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                         <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        />
+                        <Avatar />
                       </Menu.Button>
                     </div>
                     <Transition
@@ -186,11 +212,7 @@ export default function Navbar() {
             <div className="pt-4 pb-3 border-t border-gray-700">
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
-                  <img
-                    className="h-10 w-10 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
+                  <Avatar />
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-white">

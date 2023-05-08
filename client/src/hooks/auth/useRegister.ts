@@ -48,7 +48,6 @@ export function useRegister() {
       },
       onError: (error) => {
         toast("Couldn't sign up", { type: 'error' });
-        router.replace('/');
       },
     }
   );

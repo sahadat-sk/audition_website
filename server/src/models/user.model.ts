@@ -27,10 +27,10 @@ export class User {
   @prop({ minlength: 6, maxlength: 20, select: false })
   password: string;
 
-  @prop({length: 8})
+  @prop({ length: 8 })
   rollNumber: string;
-  
-  @prop({length: 10})
+
+  @prop({ length: 10 })
   contactNumber: string;
 
   @prop({ default: false })

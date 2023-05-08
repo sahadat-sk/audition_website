@@ -22,7 +22,10 @@ export default function ThemeToogle() {
   };
 
   return (
-    <button onClick={handleThemeChange}>
+    <button
+      onClick={handleThemeChange}
+      className="flex items-center justify-center"
+    >
       {theme === 'light' ? (
         <Sun className={cn('w-6 h-6')} />
       ) : (

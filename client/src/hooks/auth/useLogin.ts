@@ -35,7 +35,6 @@ export function useLogin() {
     },
     onError: (error) => {
       toast("Couldn't Login", { type: 'error' });
-      router.replace('/');
     },
   });
   return loginMutation;
