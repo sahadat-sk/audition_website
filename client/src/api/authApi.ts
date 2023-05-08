@@ -9,6 +9,8 @@ export const axiosPrivate = axios.create({
   withCredentials: true,
 });
 
+axiosPrivate.defaults.withCredentials = true;
+
 export const refresAccessToken = async () => {
   const response = await axiosPrivate.get('auth/refresh');
   return response.data;
@@ -33,7 +35,13 @@ axiosPrivate.interceptors.response.use(
   }
 );
 
+axios.defaults.withCredentials = true;
 export const register = async (user: any) => {
   const response = await axios.post(`${BASE_URL}/auth/register`, user);
+  return response.data;
+};
+
+export const login = async (user: any) => {
+  const response = await axios.post(`${BASE_URL}/auth/login`, user);
   return response.data;
 };

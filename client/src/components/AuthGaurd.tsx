@@ -21,10 +21,12 @@ export function AuthGuard(props: Props) {
   useEffect(() => {
     const init = async () => {
       try {
-        const response = await axios.get('api/auth/refresh', {
-          withCredentials: true,
-        });
-        const { data } = await axios.get('api/users/me', {
+        console.log(
+          axios.defaults.withCredentials,
+          'axios.defaults.withCredentials'
+        );
+        const response = await axios.get('auth/refresh');
+        const { data } = await axios.get('users/me', {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${response?.data?.access_token}`,

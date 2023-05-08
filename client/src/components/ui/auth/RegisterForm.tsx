@@ -112,7 +112,11 @@ export default function RegisterForm({}: Props) {
       <div className="flex flex-col items-center gap-2 mt-2">
         <span className="text-sm text-outline">Or</span>
         <a href={getGoogleUrl('/login')} className="w-full">
-          <Button className="w-full" colorVarient="transparent">
+          <Button
+            className="w-full"
+            colorVarient="transparent"
+            disabled={isSubmitting}
+          >
             <img src="/icons/google.svg" className="h-[32px] mr-2"></img>
             Continue with Google
           </Button>
