@@ -8,6 +8,7 @@ import { XIcon, MenuIcon } from 'lucide-react';
 import Link from 'next/link';
 import useAuth from '@/hooks/useAuth';
 import Modal from './Modal';
+import { useLogout } from '@/hooks/auth/useLogout';
 
 function Avatar() {
   const { auth } = useAuth() as { auth: any };
@@ -73,9 +74,10 @@ function MobileMenuItem({
 
 export default function Navbar() {
   const [modalOpen, setModalOpen] = useState(false);
+  const logout = useLogout();
   const { auth } = useAuth() as { auth: any };
 
-  if (!auth.user.role) {
+  if (!auth?.user?.role) {
     return null;
   }
   return (
@@ -172,15 +174,15 @@ export default function Navbar() {
                           </Menu.Item>
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="#"
+                              <button
                                 className={cn(
                                   active ? 'bg-gray-100' : '',
                                   'block px-4 py-2 text-sm text-gray-700'
                                 )}
+                                onClick={() => logout({})}
                               >
                                 Sign out
-                              </a>
+                              </button>
                             )}
                           </Menu.Item>
                         </Menu.Items>
@@ -243,8 +245,9 @@ export default function Navbar() {
                 </div>
                 <div className="mt-3 px-2 space-y-1">
                   <Disclosure.Button
-                    as="a"
-                    href="#"
+                    onClick={() => {
+                      logout({});
+                    }}
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                   >
                     Sign out

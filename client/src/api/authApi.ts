@@ -26,8 +26,8 @@ axiosPrivate.interceptors.response.use(
       originalRequest._retry = true;
       const res = await refresAccessToken();
       axiosPrivate.defaults.headers.common['Authorization'] =
-        'Bearer ' + res.accessToken;
-      console.log('Access token refreshed!', res.accessToken);
+        'Bearer ' + res.access_token;
+      console.log('Access token refreshed!', res.access_token);
       return axiosPrivate(originalRequest);
     } else {
       return Promise.reject(error);
@@ -43,5 +43,10 @@ export const register = async (user: any) => {
 
 export const login = async (user: any) => {
   const response = await axios.post(`${BASE_URL}/auth/login`, user);
+  return response.data;
+};
+
+export const logout = async () => {
+  const response = await axiosPrivate.post(`${BASE_URL}/auth/logout`);
   return response.data;
 };

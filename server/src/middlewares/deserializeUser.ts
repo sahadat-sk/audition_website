@@ -10,14 +10,14 @@ export const deserializeUser = async (
 ) => {
   try {
     let accessToken;
-
+    console.log(req.headers.authorization);
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith('Bearer')
     ) {
       accessToken = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies.jwt) {
-      accessToken = req.cookies.jwt;
+    } else if (req.cookies.access_token) {
+      accessToken = req.cookies.access_token;
     }
     if (!accessToken) {
       return next(createHttpError(401, 'You are not logged in'));
