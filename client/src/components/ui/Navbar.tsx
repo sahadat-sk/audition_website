@@ -19,7 +19,7 @@ function Avatar() {
   );
 }
 
-function MenuItems({
+function MenuItem({
   title,
   href,
   role = 'user',
@@ -44,7 +44,38 @@ function MenuItems({
   );
 }
 
+function MobileMenuItem({
+  title,
+  href,
+  role = 'user',
+}: {
+  title: string;
+  href: string;
+  role?: 'user' | 'admin' | 'mod';
+}) {
+  const { auth } = useAuth() as { auth: any };
+  if (auth.user.role !== role) {
+    return null;
+  }
+  return (
+    <>
+      <Disclosure.Button
+        as="a"
+        href={`${href}`}
+        className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+      >
+        {title}
+      </Disclosure.Button>
+    </>
+  );
+}
+
 export default function Navbar() {
+  const { auth } = useAuth() as { auth: any };
+
+  if (!auth.user.role) {
+    return null;
+  }
   return (
     <Disclosure
       as="nav"
@@ -74,23 +105,23 @@ export default function Navbar() {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-                    <MenuItems title="Admin Dashboard" href="/" role="admin" />
-                    <MenuItems
+                    <MenuItem
+                      title="Admin Dashboard"
+                      href="/dashboard"
+                      role="user"
+                    />
+                    <MenuItem
                       title="Manage Players"
                       href="/team"
                       role="admin"
                     />
-                    <MenuItems
-                      title="Questions"
-                      href="/auditions"
-                      role="user"
-                    />
-                    <MenuItems
+                    <MenuItem title="Questions" href="/auditions" role="user" />
+                    <MenuItem
                       title="Manage Questions"
                       href="/questions"
                       role="admin"
                     />
-                    <MenuItems title="Rules" href="/auditions" role="user" />
+                    <MenuItem title="Rules" href="/auditions" role="user" />
                   </div>
                 </div>
               </div>
@@ -180,46 +211,31 @@ export default function Navbar() {
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Dashboard
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Team
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Projects
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Calendar
-              </Disclosure.Button>
+              <MobileMenuItem title="Admin Dashboard" href="/" role="admin" />
+              <MobileMenuItem
+                title="Manage Players"
+                href="/team"
+                role="admin"
+              />
+              <MobileMenuItem title="Questions" href="/auditions" role="user" />
+              <MobileMenuItem
+                title="Manage Questions"
+                href="/questions"
+                role="admin"
+              />
+              <MobileMenuItem title="Rules" href="/auditions" role="user" />
             </div>
-            <div className="pt-4 pb-3 border-t border-gray-700">
+            <div className="pt-4 pb-3 border-t border-outline">
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
                   <Avatar />
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-white">
-                    Tom Cook
+                    {auth.user?.username}
                   </div>
                   <div className="text-sm font-medium text-gray-400">
-                    tom@example.com
+                    {auth.user?.email}
                   </div>
                 </div>
                 <div className="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
@@ -228,20 +244,6 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="mt-3 px-2 space-y-1">
-                <Disclosure.Button
-                  as="a"
-                  href="#"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                >
-                  Your Profile
-                </Disclosure.Button>
-                <Disclosure.Button
-                  as="a"
-                  href="#"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                >
-                  Settings
-                </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
                   href="#"
