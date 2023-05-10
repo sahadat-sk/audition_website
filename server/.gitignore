@@ -3,3 +3,4 @@ dist
 config
 debug.log
 *.log
+.env

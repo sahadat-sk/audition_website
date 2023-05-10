@@ -10,6 +10,7 @@ import config from 'config';
 import userRoutes from './routers/user.route';
 import authRoutes from './routers/auth.route';
 import sessionRoutes from './routers/session.route';
+import questionRoutes from './routers/question.route';
 
 const app = express();
 
@@ -35,6 +36,8 @@ app.set('env', process.env.NODE_ENV || 'development');
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/sessions', sessionRoutes);
+
+app.use('/api/questions', questionRoutes);
 
 app.get('/ping', async (req: Request, res: Response) => {
   res.status(200).json({ message: 'pong' });

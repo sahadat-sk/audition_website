@@ -67,3 +67,19 @@ if (!MONGODB_URI) {
   }
   process.exit(1);
 }
+export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
+if (!CLOUDINARY_CLOUD_NAME) {
+  logger.error('No cloudinary cloud name found in environment variable');
+  process.exit(1);
+}
+export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
+if (!CLOUDINARY_API_KEY) {
+  logger.error('No cloudinary api key found in environment variable');
+  process.exit(1);
+}
+
+export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
+if (!CLOUDINARY_API_SECRET) {
+  logger.error('No cloudinary api secret found in environment variable');
+  process.exit(1);
+}
