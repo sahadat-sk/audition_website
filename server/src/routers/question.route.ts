@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   createQuestionHandler,
+  deleteQuestionHandler,
   getAllQuestionsHandler,
   getQuestionByIdHandler,
   updateQuestionHandler,
@@ -13,5 +14,6 @@ router.post('/', multerUpload.single('file'), createQuestionHandler);
 router.get('/', getAllQuestionsHandler);
 router.get('/:id', getQuestionByIdHandler);
 router.patch('/:id', multerUpload.single('file'), updateQuestionHandler);
+router.delete('/:id', deleteQuestionHandler);
 
 export default router;

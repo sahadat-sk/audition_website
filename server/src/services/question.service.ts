@@ -49,3 +49,8 @@ export const updateQuestion = async (
   });
   return question;
 };
+
+export const deleteQuestion = async (id: string) => {
+  const question = await questionModel.findByIdAndDelete(id);
+  return question;
+};

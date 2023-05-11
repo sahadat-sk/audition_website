@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import {
   createQuestion,
+  deleteQuestion,
   findAllQuestions,
   findQuestionById,
   updateQuestion,
@@ -78,6 +79,20 @@ export const updateQuestionHandler = async (
     );
 
     res.status(200).json({ status: 'success', data: { question } });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteQuestionHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const questionId = req.params.id;
+    await deleteQuestion(questionId);
+    res.status(200).json({ status: 'success', data: null });
   } catch (err) {
     next(err);
   }
