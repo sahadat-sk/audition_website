@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { createQuestion } from '../services/question.service';
+import { createQuestion, findAllQuestions } from '../services/question.service';
 
-export const uploadQuestion = async (
+export const createQuestionHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -14,9 +14,27 @@ export const uploadQuestion = async (
       { text, isSingleSelect, options },
       localFilePath
     );
-    console.log(result);
 
     res.status(200).json({ status: 'success', data: { result } });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getAllQuestionsHandler = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const questions = await findAllQuestions();
+    res
+      .status(200)
+      .json({
+        status: 'success',
+        result: questions.length,
+        data: { questions },
+      });
   } catch (err) {
     next(err);
   }

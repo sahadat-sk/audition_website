@@ -21,3 +21,8 @@ export const createQuestion = async (
     throw new Error(err);
   }
 };
+
+export const findAllQuestions = async () => {
+  const questions = await questionModel.find();
+  return questions;
+};
