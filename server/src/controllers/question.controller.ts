@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { createQuestion, findAllQuestions } from '../services/question.service';
+import {
+  createQuestion,
+  findAllQuestions,
+  updateQuestion,
+} from '../services/question.service';
 
 export const createQuestionHandler = async (
   req: Request,
@@ -28,13 +32,37 @@ export const getAllQuestionsHandler = async (
 ) => {
   try {
     const questions = await findAllQuestions();
-    res
-      .status(200)
-      .json({
-        status: 'success',
-        result: questions.length,
-        data: { questions },
-      });
+    res.status(200).json({
+      status: 'success',
+      result: questions.length,
+      data: { questions },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateQuestionHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const questionId = req.params.id;
+    const localFilePath = req.file?.path || '';
+    const { text, isSingleSelect, options } = req.body;
+
+    const question = await updateQuestion(
+      questionId,
+      {
+        text,
+        isSingleSelect,
+        options,
+      },
+      localFilePath
+    );
+
+    res.status(200).json({ status: 'success', data: { question } });
   } catch (err) {
     next(err);
   }
