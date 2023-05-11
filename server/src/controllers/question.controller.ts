@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { uploadImage } from '../services/coudinary.service';
+import { createQuestion } from '../services/question.service';
 
 export const uploadQuestion = async (
   req: Request,
@@ -8,9 +8,12 @@ export const uploadQuestion = async (
 ) => {
   try {
     const localFilePath = req.file?.path || '';
+    const { text, isSingleSelect, options } = req.body;
 
-    console.log('file path', req.file);
-    const result = await uploadImage(localFilePath);
+    const result = await createQuestion(
+      { text, isSingleSelect, options },
+      localFilePath
+    );
     console.log(result);
 
     res.status(200).json({ status: 'success', data: { result } });

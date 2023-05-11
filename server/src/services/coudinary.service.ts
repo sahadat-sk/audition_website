@@ -25,7 +25,7 @@ export const uploadImage = async (file: string) => {
       unlinkSync(file);
       throw new Error('Error uploading image to cloudinary');
     }
-    // unlinkSync(file);
+    unlinkSync(file);
     return url;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
