@@ -27,6 +27,11 @@ export const findAllQuestions = async () => {
   return questions;
 };
 
+export const findQuestionById = async (id: string) => {
+  const question = await questionModel.findById(id);
+  return question;
+};
+
 export const updateQuestion = async (
   id: string,
   input: Partial<Question>,
