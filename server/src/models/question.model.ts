@@ -8,6 +8,9 @@ export class Question {
   @prop({ default: '' })
   file: string;
 
+  @prop({ default: 'text' })
+  type: string;
+
   @prop({ default: false })
   isSingleSelect: boolean;
 

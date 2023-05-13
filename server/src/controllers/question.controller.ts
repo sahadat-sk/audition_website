@@ -14,10 +14,10 @@ export const createQuestionHandler = async (
 ) => {
   try {
     const localFilePath = req.file?.path || '';
-    const { text, isSingleSelect, options } = req.body;
+    const { text, isSingleSelect, type, options } = req.body;
 
     const result = await createQuestion(
-      { text, isSingleSelect, options },
+      { text, isSingleSelect, type, options },
       localFilePath
     );
 
@@ -66,13 +66,14 @@ export const updateQuestionHandler = async (
   try {
     const questionId = req.params.id;
     const localFilePath = req.file?.path || '';
-    const { text, isSingleSelect, options } = req.body;
+    const { text, isSingleSelect, type, options } = req.body;
 
     const question = await updateQuestion(
       questionId,
       {
         text,
         isSingleSelect,
+        type,
         options,
       },
       localFilePath
