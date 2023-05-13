@@ -1,29 +1,35 @@
 'use client';
-import useAuth from '@/hooks/useAuth';
-import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
+
+import Button from '@/components/ui/Button';
+import LargeHeading from '@/components/ui/LargeHeading';
+import QuestionCard from '@/components/ui/question/QuestionCard';
+import { useGetAllQuestions } from '@/hooks/questions/useQuestions';
+import { Plus } from 'lucide-react';
 import React from 'react';
 
 type Props = {};
 
 const Questions = (props: Props) => {
-  const router = useRouter();
-  const { auth } = useAuth() as { auth: any };
-  const axios = useAxiosPrivate();
-  const handleLogout = async () => {
-    try {
-      await axios.post('/api/auth/logout');
-      router.push('/');
-    } catch (err: any) {
-      console.error(err.message);
-    }
-  };
+  const { data } = useGetAllQuestions();
   return (
-    <div>
-      <h1>HIIIIIIII.... {auth.user.username}</h1>
-      <h1>Questions</h1>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+    <>
+      <div className="px-4 pt-20 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex flex-col justify-between w-full gap-2 p-4 mb-4 rounded-md bg-surface dark:bg-surfaceDark lg:flex-row">
+          <LargeHeading size="sm">All Questions</LargeHeading>
+          <Button>
+            Add Question <Plus className="ml-2" />
+          </Button>
+        </div>
+        {data?.data?.questions.map((question: any) => (
+          <QuestionCard
+            key={question.id}
+            id={question.id}
+            text={question.text}
+            fileSrc={question.file}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

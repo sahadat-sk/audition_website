@@ -122,7 +122,7 @@ export default function Navbar() {
                       />
                       <MenuItem
                         title="Questions"
-                        href="/auditions"
+                        href="/questions"
                         role="user"
                       />
                       <MenuItem

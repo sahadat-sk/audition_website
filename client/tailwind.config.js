@@ -20,7 +20,7 @@ module.exports = {
       onError: '#ffffff',
       errorContainer: '#ffdad6',
       onErrorContainer: '#410002',
-      bg: '#fffbff',
+      bg: '#f7f7f8',
       onBg: '#1c1b1e',
       surface: '#FFFBFE',
       onSurface: '#1C1B1F',
