@@ -8,11 +8,11 @@ export class Question {
   @prop({ default: '' })
   file: string;
 
-  @prop({ default: 'text' })
+  @prop({
+    default: 'text',
+    enum: ['text', 'single-select', 'multi-select', 'file'],
+  })
   type: string;
-
-  @prop({ default: false })
-  isSingleSelect: boolean;
 
   @prop()
   options: string[];

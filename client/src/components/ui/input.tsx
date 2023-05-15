@@ -10,8 +10,8 @@ export interface InputProps
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, label, errMsg, ...props }, ref) => {
     return (
-      <div>
-        <label htmlFor="email" className="block  text-sm font-medium mb-1">
+      <div className="w-full">
+        <label htmlFor="email" className="block mb-1 text-sm font-medium">
           {label}
         </label>
         <input

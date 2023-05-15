@@ -14,12 +14,9 @@ export const createQuestionHandler = async (
 ) => {
   try {
     const localFilePath = req.file?.path || '';
-    const { text, isSingleSelect, type, options } = req.body;
+    const { text, type, options } = req.body;
 
-    const result = await createQuestion(
-      { text, isSingleSelect, type, options },
-      localFilePath
-    );
+    const result = await createQuestion({ text, type, options }, localFilePath);
 
     res.status(200).json({ status: 'success', data: { result } });
   } catch (err) {
@@ -66,13 +63,12 @@ export const updateQuestionHandler = async (
   try {
     const questionId = req.params.id;
     const localFilePath = req.file?.path || '';
-    const { text, isSingleSelect, type, options } = req.body;
+    const { text, type, options } = req.body;
 
     const question = await updateQuestion(
       questionId,
       {
         text,
-        isSingleSelect,
         type,
         options,
       },

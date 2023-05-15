@@ -9,6 +9,5 @@ export function useGetAllQuestions() {
     queryKey: ['questions'],
     queryFn: getAllQuestions,
   });
-  console.log(questionQuery);
   return questionQuery;
 }
