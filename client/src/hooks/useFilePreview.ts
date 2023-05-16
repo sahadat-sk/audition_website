@@ -10,6 +10,8 @@ export default function useFilePreview(file: FileList | null) {
       if (newUrl !== imgSrc) {
         setImgSrc(newUrl);
       }
+    } else {
+      setImgSrc(null);
     }
   }, [file]);
 

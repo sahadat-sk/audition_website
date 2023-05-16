@@ -6,6 +6,10 @@ import { Input } from '../input';
 import { Delete, X } from 'lucide-react';
 import { SetStateAction, use, useEffect } from 'react';
 import useFilePreview from '@/hooks/useFilePreview';
+import Paragraph from '../Paragraph';
+import Button from '../Button';
+import LargeHeading from '../LargeHeading';
+import { useCreateQuestion } from '@/hooks/questions/useQuestions';
 const MAX_FILE_SIZE = 500000;
 const ACCEPTED_IMAGE_TYPES = [
   'image/jpeg',
@@ -28,15 +32,8 @@ const formSchema = z.object({
     .min(1, 'At least one option is required'),
   file: z
     .any()
-    .refine((files) => files?.length == 1, 'Image is required.')
-    .refine(
-      (files) => files?.[0]?.size <= MAX_FILE_SIZE,
-      `Max file size is 5MB.`
-    )
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      '.jpg, .jpeg, .png and .webp files are accepted.'
-    ),
+    .transform((e) => (!e ? undefined : e))
+    .optional(),
   type: z.enum(['text', 'single-select', 'multi-select', 'file']),
 });
 
@@ -51,6 +48,9 @@ export default function AddQuestionModal({
   open,
   setOpen,
 }: AddQuestionModalProps) {
+  const { createQuestionMutation: createQuestion, isLoading } =
+    useCreateQuestion();
+
   const {
     register,
     handleSubmit,
@@ -67,7 +67,6 @@ export default function AddQuestionModal({
           option: '',
         },
       ],
-      file: '',
       type: 'text',
     },
   });
@@ -78,7 +77,8 @@ export default function AddQuestionModal({
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-    console.log(data);
+    createQuestion(data);
+    if (!isLoading) setOpen(false);
   };
 
   useEffect(() => {
@@ -90,6 +90,9 @@ export default function AddQuestionModal({
   const [filePreview, setPreview] = useFilePreview(file);
   return (
     <Modal open={open} setOpen={setOpen}>
+      <LargeHeading size={'sm'} className="mb-2">
+        Create question
+      </LargeHeading>
       <form className="flex flex-col gap-2 " onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="Question"
@@ -108,13 +111,14 @@ export default function AddQuestionModal({
             <img
               src={filePreview as string}
               alt="file preview"
-              className="w-1/2"
+              className="w-full"
             />
-            <button type="button" onClick={() => reset({ file: '' })}>
-              <Delete height={50} size={30} />
+            <button type="button" onClick={() => reset({ file: null })}>
+              <X></X>
             </button>
           </div>
         )}
+        <Paragraph className="mb-0 text-xs font-bold">Options</Paragraph>
         {fields.map((field, index) => {
           return (
             <section
@@ -122,7 +126,8 @@ export default function AddQuestionModal({
               className="flex items-end justify-between w-full gap-2"
             >
               <Input
-                label={`Option ${index + 1}`}
+                // label={`Option ${index + 1}`}
+                label={''}
                 type="text"
                 {...register(`options.${index}.option` as const)}
                 errMsg={errors.options?.[index]?.option?.message}
@@ -133,10 +138,17 @@ export default function AddQuestionModal({
             </section>
           );
         })}
-        <button type="button" onClick={() => append({ option: '' })}>
-          ADD
-        </button>
-        <button type="submit">Submit</button>
+        <Button
+          colorVarient={'transparent'}
+          type="button"
+          className="mt-2"
+          onClick={() => append({ option: '' })}
+        >
+          Add Option
+        </Button>
+        <Button colorVarient={'green'} type="submit">
+          Create Question
+        </Button>
       </form>
     </Modal>
   );
