@@ -1,16 +1,14 @@
 import Modal from '../Modal';
-import { any, z } from 'zod';
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../input';
-import { X } from 'lucide-react';
 import { useEffect } from 'react';
-import useFilePreview from '@/hooks/useFilePreview';
-import Paragraph from '../Paragraph';
 import Button from '../Button';
 import LargeHeading from '../LargeHeading';
 import { useCreateQuestion } from '@/hooks/questions/useQuestions';
 import Options from './Options';
+import FilePreview from '../FilePreview';
 
 const formSchema = z.object({
   text: z
@@ -65,11 +63,6 @@ export default function AddQuestionModal({
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    name: 'options',
-    control,
-  });
-
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     createQuestion(data);
     setOpen(false);
@@ -80,8 +73,8 @@ export default function AddQuestionModal({
       reset();
     }
   }, [open]);
+
   const file = watch('file');
-  const [filePreview] = useFilePreview(file);
   return (
     <Modal open={open} setOpen={setOpen}>
       <LargeHeading size={'sm'} className="mb-2">
@@ -100,18 +93,7 @@ export default function AddQuestionModal({
           {...register('file')}
           errMsg={errors.file?.message?.toString()}
         />
-        {filePreview && (
-          <div className="flex items-center justify-between w-full gap-2">
-            <img
-              src={filePreview as string}
-              alt="file preview"
-              className="w-full"
-            />
-            <button type="button" onClick={() => reset({ file: null })}>
-              <X></X>
-            </button>
-          </div>
-        )}
+        <FilePreview file={file} reset={reset} />
         <Options control={control} register={register} errors={errors} />
         <Button colorVarient={'green'} type="submit">
           Create Question
