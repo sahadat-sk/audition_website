@@ -3,20 +3,13 @@ import { any, z } from 'zod';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../input';
-import { Delete, X } from 'lucide-react';
-import { SetStateAction, use, useEffect } from 'react';
+import { X } from 'lucide-react';
+import { useEffect } from 'react';
 import useFilePreview from '@/hooks/useFilePreview';
 import Paragraph from '../Paragraph';
 import Button from '../Button';
 import LargeHeading from '../LargeHeading';
 import { useCreateQuestion } from '@/hooks/questions/useQuestions';
-const MAX_FILE_SIZE = 500000;
-const ACCEPTED_IMAGE_TYPES = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp',
-];
 
 const formSchema = z.object({
   text: z
@@ -78,7 +71,7 @@ export default function AddQuestionModal({
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     createQuestion(data);
-    if (!isLoading) setOpen(false);
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -87,7 +80,7 @@ export default function AddQuestionModal({
     }
   }, [open]);
   const file = watch('file');
-  const [filePreview, setPreview] = useFilePreview(file);
+  const [filePreview] = useFilePreview(file);
   return (
     <Modal open={open} setOpen={setOpen}>
       <LargeHeading size={'sm'} className="mb-2">

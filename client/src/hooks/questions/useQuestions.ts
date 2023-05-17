@@ -1,8 +1,11 @@
 'use client';
 
-import { createQuestion, getAllQuestions } from '@/api/questionsApi';
+import {
+  createQuestion,
+  deleteQuestion,
+  getAllQuestions,
+} from '@/api/questionsApi';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 type Question = {
   text: string;
@@ -20,7 +23,6 @@ export function useGetAllQuestions() {
 }
 
 export function useCreateQuestion() {
-  const router = useRouter();
   const { mutate: createQuestionMutation, isLoading } = useMutation<
     Question,
     unknown,
@@ -35,4 +37,20 @@ export function useCreateQuestion() {
     },
   });
   return { createQuestionMutation, isLoading };
+}
+export function useDeleteQuestion() {
+  const { mutate: deleteQuestionMutation, isLoading } = useMutation<
+    Question,
+    unknown,
+    number,
+    unknown
+  >((id) => deleteQuestion(id), {
+    onSuccess: (data) => {
+      toast('Question Deleted', { type: 'success' });
+    },
+    onError: (error) => {
+      toast('Failed to delete Question', { type: 'error' });
+    },
+  });
+  return { deleteQuestionMutation, isLoading };
 }

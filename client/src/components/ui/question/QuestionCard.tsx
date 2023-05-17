@@ -5,6 +5,7 @@ import React from 'react';
 import Paragraph from '../Paragraph';
 import Button from '../Button';
 import { Pencil, Trash } from 'lucide-react';
+import DeleteQuestionModal from './DeleteQuestionModal';
 
 type QuestionProps = {
   id: number;
@@ -19,9 +20,13 @@ export default function QuestionCard({
   fileSrc,
   number,
 }: QuestionProps) {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
   return (
     <>
-      <div key={id} className="p-4 rounded-md bg-surface dark:bg-surfaceDark ">
+      <div
+        key={id}
+        className="p-4 mb-4 rounded-md bg-surface dark:bg-surfaceDark"
+      >
         <div className="flex items-center gap-2 ">
           <p className="flex items-center justify-center w-6 h-6 p-2 font-bold rounded-full bg-primary text-onPrimary dark:bg-primaryDark dark:text-onPrimaryDark">
             {number}
@@ -51,12 +56,20 @@ export default function QuestionCard({
           <Button
             colorVarient="transparent"
             className="w-full text-red dark:text-redDark border-red dark:border-redDark md:w-auto"
+            onClick={() => setIsDeleteModalOpen(true)}
           >
             <Trash className="mr-2" />
             Delete
           </Button>
         </div>
       </div>
+
+      <DeleteQuestionModal
+        open={isDeleteModalOpen}
+        setOpen={setIsDeleteModalOpen}
+        id={id}
+        index={number}
+      />
     </>
   );
 }

@@ -6,7 +6,7 @@ const multerStorage = multer.diskStorage({
   },
 
   filename: (request, file, callback) => {
-    callback(null, file.originalname);
+    callback(null, new Date().toString() + file.originalname);
   },
 });
 

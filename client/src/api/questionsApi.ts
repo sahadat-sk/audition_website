@@ -22,3 +22,8 @@ export const createQuestion = async (question: any) => {
   );
   return response.data;
 };
+
+export const deleteQuestion = async (id: number) => {
+  const response = await axiosPrivate.delete(`${BASE_URL}/questions/${id}`);
+  return response.data;
+};
