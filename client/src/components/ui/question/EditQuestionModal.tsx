@@ -10,7 +10,6 @@ import Paragraph from '../Paragraph';
 import Button from '../Button';
 import LargeHeading from '../LargeHeading';
 import { useCreateQuestion } from '@/hooks/questions/useQuestions';
-import Options from './Options';
 
 const formSchema = z.object({
   text: z
@@ -31,7 +30,7 @@ const formSchema = z.object({
   type: z.enum(['text', 'single-select', 'multi-select', 'file']),
 });
 
-export type FormSchemaType = z.infer<typeof formSchema>;
+type FormSchemaType = z.infer<typeof formSchema>;
 
 type AddQuestionModalProps = {
   open: boolean;
@@ -112,7 +111,34 @@ export default function AddQuestionModal({
             </button>
           </div>
         )}
-        <Options control={control} register={register} errors={errors} />
+        <Paragraph className="mb-0 text-xs font-bold">Options</Paragraph>
+        {fields.map((field, index) => {
+          return (
+            <section
+              key={field.id}
+              className="flex items-end justify-between w-full gap-2"
+            >
+              <Input
+                // label={`Option ${index + 1}`}
+                label={''}
+                type="text"
+                {...register(`options.${index}.option` as const)}
+                errMsg={errors.options?.[index]?.option?.message}
+              />
+              <button type="button" onClick={() => remove(index)}>
+                <X height={50} size={30} />
+              </button>
+            </section>
+          );
+        })}
+        <Button
+          colorVarient={'transparent'}
+          type="button"
+          className="mt-2"
+          onClick={() => append({ option: '' })}
+        >
+          Add Option
+        </Button>
         <Button colorVarient={'green'} type="submit">
           Create Question
         </Button>
