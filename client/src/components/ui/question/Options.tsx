@@ -10,21 +10,29 @@ import {
   useFieldArray,
 } from 'react-hook-form';
 import { FormSchemaType } from './AddQuestionModal';
+import { cn } from '@/utils/cn';
 
 type OptionsProps = {
   control: Control<FormSchemaType>;
   register: UseFormRegister<FormSchemaType>;
   errors: FieldErrors<FormSchemaType>;
+  className?: string;
 };
 
-const Options = ({ control, register, errors, ...props }: OptionsProps) => {
+const Options = ({
+  control,
+  register,
+  errors,
+  className,
+  ...props
+}: OptionsProps) => {
   const { fields, append, remove } = useFieldArray({
     name: 'options',
     control,
   });
 
   return (
-    <div {...props}>
+    <div className={cn(className, 'flex gap-1 flex-col')} {...props}>
       <Paragraph className="mb-0 text-xs font-bold">Options</Paragraph>
       {fields.map((field, index) => {
         return (
@@ -48,7 +56,7 @@ const Options = ({ control, register, errors, ...props }: OptionsProps) => {
       <Button
         colorVarient={'transparent'}
         type="button"
-        className="mt-2"
+        className="mt-4"
         onClick={() => append({ option: '' })}
       >
         Add Option

@@ -12,6 +12,7 @@ const buttonVariants = cva(
       variant: {
         default: 'rounded-md',
         rounded: 'rounded-full',
+        text: 'py-0',
       },
       colorVarient: {
         default:
@@ -60,7 +61,7 @@ const Button: FC<ButtonProps> = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isLoading}
         {...props}
       >
-        {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+        {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
         {children}
       </button>
     );

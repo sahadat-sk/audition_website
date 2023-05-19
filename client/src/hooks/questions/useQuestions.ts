@@ -3,6 +3,7 @@
 import {
   createQuestion,
   deleteQuestion,
+  editQuestion,
   getAllQuestions,
 } from '@/api/questionsApi';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -38,6 +39,23 @@ export function useCreateQuestion() {
   });
   return { createQuestionMutation, isLoading };
 }
+export function useEditQuestion() {
+  const { mutate: editQuestionMutation, isLoading } = useMutation<
+    Question,
+    unknown,
+    { id: number; question: Question },
+    unknown
+  >(({ id, question }) => editQuestion(id, question), {
+    onSuccess: (data) => {
+      toast('Question Edited', { type: 'success' });
+    },
+    onError: (error) => {
+      toast('Failed to edit Question', { type: 'error' });
+    },
+  });
+  return { editQuestionMutation, isLoading };
+}
+
 export function useDeleteQuestion() {
   const { mutate: deleteQuestionMutation, isLoading } = useMutation<
     Question,

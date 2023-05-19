@@ -5,8 +5,9 @@ import LargeHeading from '@/components/ui/LargeHeading';
 import QuestionCard from '@/components/ui/question/QuestionCard';
 import AddQuestionModal from '@/components/ui/question/AddQuestionModal';
 import { useGetAllQuestions } from '@/hooks/questions/useQuestions';
-import { Plus } from 'lucide-react';
+import { Delete, Plus } from 'lucide-react';
 import React from 'react';
+import DeleteQuestionModal from '@/components/ui/question/DeleteQuestionModal';
 
 type Props = {};
 
@@ -27,15 +28,18 @@ const Questions = (props: Props) => {
             Add Question <Plus className="ml-2" />
           </Button>
         </div>
-        {data?.data?.questions.map((question: any, index: number) => (
-          <QuestionCard
-            number={index + 1}
-            key={question._id}
-            id={question._id}
-            text={question.text}
-            fileSrc={question.file}
-          />
-        ))}
+        <div className="grid grid-flow-row grid-cols-1 gap-2 auto-rows-min md:grid-cols-3">
+          {data?.data?.questions.map((question: any, index: number) => (
+            <QuestionCard
+              number={index + 1}
+              key={question._id}
+              id={question._id}
+              text={question.text}
+              fileSrc={question.file}
+              options={question.options}
+            />
+          ))}
+        </div>
       </div>
       <AddQuestionModal open={isModalOpen} setOpen={setIsModalOpen} />
     </>

@@ -1,24 +1,3 @@
-// {
-//   "text": "what is the question",
-//   "options": [
-//     {
-//       "option": "there are"
-//     },
-//     {
-//       "option": "the one"
-//     },
-//     {
-//       "option": "the wot"
-//     },
-//     {
-//       "option": "alsfdkjl"
-//     }
-//   ],
-//   "file": {
-//     "0": {}
-//   },
-//   "type": "text"
-// }
 export const convertQuestionToFormData = (question: any) => {
   let questionFormData = new FormData();
   questionFormData.append('text', question.text);
@@ -36,6 +15,14 @@ export const convertOptionsArray = (options: any) => {
   let optionsArray: string[] = [];
   options.forEach((option: any) => {
     optionsArray.push(option.option);
+  });
+  return optionsArray;
+};
+
+export const convertOptionsToFormOptions = (options: string[]) => {
+  let optionsArray: any[] = [];
+  options.forEach((option: string) => {
+    optionsArray.push({ option });
   });
   return optionsArray;
 };

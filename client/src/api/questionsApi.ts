@@ -23,6 +23,20 @@ export const createQuestion = async (question: any) => {
   return response.data;
 };
 
+export const editQuestion = async (id: number, question: any) => {
+  const questionFormData = convertQuestionToFormData(question);
+  const response = await axiosPrivate.patch(
+    `${BASE_URL}/questions/${id}`,
+    questionFormData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
+  return response.data;
+};
+
 export const deleteQuestion = async (id: number) => {
   const response = await axiosPrivate.delete(`${BASE_URL}/questions/${id}`);
   return response.data;

@@ -33,7 +33,7 @@ export type FormSchemaType = z.infer<typeof formSchema>;
 
 type AddQuestionModalProps = {
   open: boolean;
-  setOpen: any;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function AddQuestionModal({
