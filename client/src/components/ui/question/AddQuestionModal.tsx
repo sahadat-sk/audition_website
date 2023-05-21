@@ -9,8 +9,9 @@ import LargeHeading from '../LargeHeading';
 import { useCreateQuestion } from '@/hooks/questions/useQuestions';
 import Options from './Options';
 import FilePreview from '../FilePreview';
+import { Select } from '../Select';
 
-const formSchema = z.object({
+export const formSchema = z.object({
   text: z
     .string()
     .min(1, 'Question is required')
@@ -21,7 +22,7 @@ const formSchema = z.object({
         option: z.string().min(1, 'Option is required'),
       })
     )
-    .min(1, 'At least one option is required'),
+    .optional(),
   file: z
     .any()
     .transform((e) => (!e ? undefined : e))
@@ -62,6 +63,8 @@ export default function AddQuestionModal({
       type: 'text',
     },
   });
+  const file = watch('file');
+  const type = watch('type');
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     createQuestion(data);
@@ -73,8 +76,15 @@ export default function AddQuestionModal({
       reset();
     }
   }, [open]);
+  useEffect(() => {
+    if (type === 'file' || type === 'text') {
+      reset({
+        type,
+        options: [],
+      });
+    }
+  }, [type]);
 
-  const file = watch('file');
   return (
     <Modal open={open} setOpen={setOpen}>
       <LargeHeading size={'sm'} className="mb-2">
@@ -93,11 +103,25 @@ export default function AddQuestionModal({
           {...register('file')}
           errMsg={errors.file?.message?.toString()}
         />
+
         <FilePreview file={file} reset={reset} />
-        <Options control={control} register={register} errors={errors} />
+        <Select
+          label="Question Type"
+          options={[
+            { key: 'text', value: 'Text' },
+            { key: 'single-select', value: 'Single Select' },
+            { key: 'multi-select', value: 'Multi Select' },
+            { key: 'file', value: 'File' },
+          ]}
+          {...register('type')}
+        />
+        {type == 'single-select' || type == 'multi-select' ? (
+          <Options control={control} register={register} errors={errors} />
+        ) : null}
         <Button colorVarient={'green'} type="submit">
           Create Question
         </Button>
+        <p>{errors.options?.message?.toString()}</p>
       </form>
     </Modal>
   );

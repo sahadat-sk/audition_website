@@ -15,6 +15,7 @@ type QuestionProps = {
   fileSrc: string;
   number: number;
   options: string[];
+  type: 'text' | 'file' | 'single-select' | 'multi-select';
 };
 
 export default function QuestionCard({
@@ -22,6 +23,7 @@ export default function QuestionCard({
   text,
   fileSrc,
   number,
+  type,
   options,
 }: QuestionProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
@@ -30,7 +32,7 @@ export default function QuestionCard({
     <>
       <div
         key={id}
-        className="flex flex-col justify-between p-4 mb-4 rounded-md bg-surface dark:bg-surfaceDark"
+        className="flex flex-col justify-between p-4 rounded-md bg-surface dark:bg-surfaceDark"
       >
         {fileSrc ? (
           <Image
@@ -42,12 +44,12 @@ export default function QuestionCard({
             className="rounded-md"
           ></Image>
         ) : null}
-        <div className="flex flex-col justify-between h-full">
+        <div className="flex flex-col justify-between">
           <Paragraph size="lg" className="font-bold ">
             {text}
           </Paragraph>
 
-          <div className="flex items-end justify-center flex-1 gap-4 mt-2 md:flex-auto md:justify-start">
+          <div className="flex items-end justify-end gap-4 mt-2 h-max md:flex-auto md:justify-start">
             <Button
               colorVarient="transparent"
               className="px-0 border-none rounded-full"
@@ -82,7 +84,7 @@ export default function QuestionCard({
           text,
           file: fileSrc,
           options: convertOptionsToFormOptions(options),
-          type: 'text',
+          type,
         }}
       />
     </>

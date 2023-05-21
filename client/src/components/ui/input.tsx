@@ -11,7 +11,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, label, errMsg, ...props }, ref) => {
     return (
       <div className="w-full">
-        <label htmlFor="email" className="block mb-1 text-sm font-medium">
+        <label htmlFor={label} className="block mb-1 text-sm font-medium">
           {label}
         </label>
         <input

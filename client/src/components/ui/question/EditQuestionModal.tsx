@@ -12,25 +12,8 @@ import {
 } from '@/hooks/questions/useQuestions';
 import Options from './Options';
 import FilePreview from '../FilePreview';
-
-const formSchema = z.object({
-  text: z
-    .string()
-    .min(1, 'Question is required')
-    .max(100, 'Question must be less than 100 characters'),
-  options: z
-    .array(
-      z.object({
-        option: z.string().min(1, 'Option is required'),
-      })
-    )
-    .min(1, 'At least one option is required'),
-  file: z
-    .any()
-    .transform((e) => (!e ? undefined : e))
-    .optional(),
-  type: z.enum(['text', 'single-select', 'multi-select', 'file']),
-});
+import { formSchema } from './AddQuestionModal';
+import { Select } from '../Select';
 
 export type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -61,16 +44,20 @@ export default function EditQuestionModal({
     defaultValues: defaultValues,
   });
 
+  const type = watch('type');
+
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     editQuestion({ id, question: data });
     setOpen(false);
   };
-
   useEffect(() => {
-    if (!open) {
-      reset();
+    if (type === 'file' || type === 'text') {
+      reset({
+        type,
+        options: [],
+      });
     }
-  }, [open]);
+  }, [type]);
 
   const file = watch('file');
   return (
@@ -92,7 +79,19 @@ export default function EditQuestionModal({
           errMsg={errors.file?.message?.toString()}
         />
         <FilePreview file={file} reset={reset} />
-        <Options control={control} register={register} errors={errors} />
+        <Select
+          label="Question Type"
+          options={[
+            { key: 'text', value: 'Text' },
+            { key: 'single-select', value: 'Single Select' },
+            { key: 'multi-select', value: 'Multi Select' },
+            { key: 'file', value: 'File' },
+          ]}
+          {...register('type')}
+        />
+        {type == 'single-select' || type == 'multi-select' ? (
+          <Options control={control} register={register} errors={errors} />
+        ) : null}
         <Button colorVarient={'blue'} type="submit">
           Edit Question
         </Button>

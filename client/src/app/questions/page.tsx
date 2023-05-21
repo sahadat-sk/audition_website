@@ -5,9 +5,8 @@ import LargeHeading from '@/components/ui/LargeHeading';
 import QuestionCard from '@/components/ui/question/QuestionCard';
 import AddQuestionModal from '@/components/ui/question/AddQuestionModal';
 import { useGetAllQuestions } from '@/hooks/questions/useQuestions';
-import { Delete, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import React from 'react';
-import DeleteQuestionModal from '@/components/ui/question/DeleteQuestionModal';
 
 type Props = {};
 
@@ -37,6 +36,7 @@ const Questions = (props: Props) => {
               text={question.text}
               fileSrc={question.file}
               options={question.options}
+              type={question.type}
             />
           ))}
         </div>
