@@ -45,10 +45,23 @@ export default function QuestionCard({
           ></Image>
         ) : null}
         <div className="flex flex-col justify-between">
-          <Paragraph size="lg" className="font-bold ">
-            {text}
-          </Paragraph>
-
+          <div className="flex items-start justify-between w-full gap-2">
+            <Paragraph size="lg" className="font-bold ">
+              {text}
+            </Paragraph>
+            <Paragraph size="sm" className="text-gray-500">
+              {type}
+            </Paragraph>
+          </div>
+          {options.length > 0
+            ? options.map((option) => {
+                return (
+                  <Paragraph className="mb-0" size="sm">
+                    - {option}
+                  </Paragraph>
+                );
+              })
+            : null}
           <div className="flex items-end justify-end gap-4 mt-2 h-max md:flex-auto md:justify-start">
             <Button
               colorVarient="transparent"
