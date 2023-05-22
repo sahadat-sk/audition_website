@@ -11,10 +11,10 @@ import { Question } from './question.model';
 @modelOptions({ schemaOptions: { timestamps: true } })
 @index({ userId: 1, questionId: 1 })
 export class Answer {
-  @prop({ ref: () => Question })
+  @prop({ ref: () => Question, required: true })
   questionId: Ref<Question>;
 
-  @prop({ ref: () => User })
+  @prop({ ref: () => User, required: true })
   userId: Ref<User>;
 
   @prop()

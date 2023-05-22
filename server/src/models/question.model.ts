@@ -11,6 +11,7 @@ export class Question {
   @prop({
     default: 'text',
     enum: ['text', 'single-select', 'multi-select', 'file'],
+    required: true,
   })
   type: string;
 
