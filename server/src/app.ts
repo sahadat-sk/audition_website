@@ -39,6 +39,8 @@ app.use('/api/sessions', sessionRoutes);
 
 app.use('/api/questions', questionRoutes);
 
+// app.use('/api/answers',)
+
 app.get('/ping', async (req: Request, res: Response) => {
   res.status(200).json({ message: 'pong' });
 });
