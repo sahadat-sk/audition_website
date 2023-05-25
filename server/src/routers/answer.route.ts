@@ -7,7 +7,7 @@ import {
 
 const router = express.Router();
 
-router.post('/:userid', multerUpload.single('file'), createAnswerHandler);
+router.put('/:userid', multerUpload.single('file'), createAnswerHandler);
 router.get('/:userid', getAllAnswersHandler);
 
 export default router;

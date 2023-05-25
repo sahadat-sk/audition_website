@@ -12,6 +12,7 @@ import authRoutes from './routers/auth.route';
 import sessionRoutes from './routers/session.route';
 import questionRoutes from './routers/question.route';
 import answerRoutes from './routers/answer.route';
+import reviewRoutes from './routers/review.route';
 
 const app = express();
 
@@ -41,6 +42,8 @@ app.use('/api/sessions', sessionRoutes);
 app.use('/api/questions', questionRoutes);
 
 app.use('/api/answers', answerRoutes);
+
+app.use('/api/reviews', reviewRoutes);
 
 app.get('/ping', async (req: Request, res: Response) => {
   res.status(200).json({ message: 'pong' });
