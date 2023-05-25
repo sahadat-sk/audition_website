@@ -42,6 +42,9 @@ export class User {
   @prop({ default: 'user' })
   role: string;
 
+  @prop({ default: 0 })
+  rating: number;
+
   @prop()
   startTime: Date;
 
