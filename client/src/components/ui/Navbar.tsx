@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { Fragment, useState } from 'react';
@@ -9,11 +10,14 @@ import Link from 'next/link';
 import useAuth from '@/hooks/useAuth';
 import Modal from './Modal';
 import { useLogout } from '@/hooks/auth/useLogout';
+import Image from 'next/image';
 
 function Avatar() {
   const { auth } = useAuth() as { auth: any };
   return (
     <img
+      width={32}
+      height={32}
       className="w-8 h-8 rounded-full"
       src={`https://api.dicebear.com/6.x/bottts-neutral/svg?seed=%${auth.user.email}`}
       alt=""
@@ -92,12 +96,16 @@ export default function Navbar() {
               <div className="flex items-center justify-between h-16">
                 <div className="flex items-center">
                   <div className="flex-shrink-0 mr-2">
-                    <img
+                    <Image
+                      height={32}
+                      width={32}
                       className="block w-auto h-8 lg:hidden"
                       src="/images/gluglogo.png"
                       alt="Glug"
                     />
-                    <img
+                    <Image
+                      height={32}
+                      width={32}
                       className="hidden w-auto h-8 lg:block"
                       src="/images/gluglogo.png"
                       alt="Glug"
@@ -127,8 +135,8 @@ export default function Navbar() {
                       />
                       <MenuItem
                         title="Manage Questions"
-                        href="/questions"
-                        role="admin"
+                        href="/questions-admin"
+                        role="user"
                       />
                       <MenuItem title="Rules" href="/auditions" role="user" />
                     </div>
@@ -220,8 +228,8 @@ export default function Navbar() {
                 />
                 <MobileMenuItem
                   title="Manage Questions"
-                  href="/questions"
-                  role="admin"
+                  href="/question-admin"
+                  role="user"
                 />
                 <MobileMenuItem title="Rules" href="/auditions" role="user" />
               </div>

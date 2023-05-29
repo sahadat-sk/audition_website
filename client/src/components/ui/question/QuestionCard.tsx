@@ -32,7 +32,7 @@ export default function QuestionCard({
     <>
       <div
         key={id}
-        className="flex flex-col justify-between p-4 rounded-md bg-surface dark:bg-surfaceDark"
+        className="flex flex-col justify-between p-4 px-6 rounded-md md:flex-row-reverse bg-surface dark:bg-surfaceDark"
       >
         {fileSrc ? (
           <Image
@@ -43,7 +43,9 @@ export default function QuestionCard({
             quality={80}
             className="rounded-md"
           ></Image>
-        ) : null}
+        ) : (
+          <div className="w-2/3 h-auto w-[480px]" />
+        )}
         <div className="flex flex-col justify-between">
           <div className="flex items-start justify-between w-full gap-2">
             <Paragraph size="lg" className="font-bold ">
@@ -54,15 +56,15 @@ export default function QuestionCard({
             </Paragraph>
           </div>
           {options.length > 0
-            ? options.map((option) => {
+            ? options.map((option, index) => {
                 return (
-                  <Paragraph className="mb-0" size="sm">
+                  <Paragraph className="mb-0" size="sm" key={index}>
                     - {option}
                   </Paragraph>
                 );
               })
             : null}
-          <div className="flex items-end justify-end gap-4 mt-2 h-max md:flex-auto md:justify-start">
+          <div className="flex items-end justify-end gap-6 mt-2 h-max md:flex-auto md:justify-start">
             <Button
               colorVarient="transparent"
               className="px-0 border-none rounded-full"

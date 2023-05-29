@@ -9,6 +9,7 @@ import { useLogin } from '@/hooks/auth/useLogin';
 import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 
 const formSchema = z.object({
   email: z.string().email('Invalid email address').min(1, 'Email is required'),
@@ -37,7 +38,7 @@ export default function LoginForm({}: Props) {
       heading="Sign in"
       subheading={
         <>
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link
             className="underline text-blue dark:text-blueDark"
             href="/register"
@@ -68,7 +69,13 @@ export default function LoginForm({}: Props) {
         <span className="text-sm text-outline">Or</span>
         <a href={getGoogleUrl('/login')} className="w-full">
           <Button className="w-full" colorVarient="transparent">
-            <img src="/icons/google.svg" className="h-[32px] mr-2"></img>
+            <Image
+              src="/icons/google.svg"
+              alt="googleicon"
+              height={32}
+              width={32}
+              className="h-[32px] mr-2"
+            />
             Continue with Google
           </Button>
         </a>
