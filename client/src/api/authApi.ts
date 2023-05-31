@@ -50,3 +50,8 @@ export const logout = async () => {
   const response = await axiosPrivate.post(`${BASE_URL}/auth/logout`);
   return response.data;
 };
+
+export const getMe = async () => {
+  const response = await axiosPrivate.get(`${BASE_URL}/users/me`);
+  return response.data;
+};

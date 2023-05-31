@@ -26,3 +26,17 @@ export const convertOptionsToFormOptions = (options: string[]) => {
   });
   return optionsArray;
 };
+// const secondaryNavigation = [
+//   { name: 'Website redesign', href: '#' },
+//   { name: 'GraphQL API', href: '#' },
+//   { name: 'Customer migration guides', href: '#' },
+//   { name: 'Profit sharing program', href: '#' },
+// ];
+export const questionsToSidebarLinks = (questions: any) => {
+  return questions.map((question: any) => {
+    return {
+      name: question.text,
+      href: `/questions/${question._id}`,
+    };
+  });
+};

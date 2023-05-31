@@ -6,18 +6,11 @@ import { useTheme } from 'next-themes';
 import { Sun, Moon } from 'lucide-react';
 export default function ThemeToogle() {
   const { theme, setTheme } = useTheme();
-  const [enabled, setEnabled] = useState<boolean>();
-  useEffect(() => {
-    setTheme(localStorage.getItem('theme') || 'light');
-  }, []);
-
   const handleThemeChange = () => {
     if (theme === 'light') {
       setTheme('dark');
-      localStorage.setItem('theme', 'dark');
     } else {
       setTheme('light');
-      localStorage.setItem('theme', 'light');
     }
   };
 
@@ -26,7 +19,7 @@ export default function ThemeToogle() {
       onClick={handleThemeChange}
       className="flex items-center justify-center"
     >
-      {theme === 'light' ? (
+      {theme && theme === 'light' ? (
         <Sun className={cn('w-6 h-6')} />
       ) : (
         <Moon className={cn('w-6 h-6')} />

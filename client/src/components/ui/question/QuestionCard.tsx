@@ -17,6 +17,9 @@ type QuestionProps = {
   options: string[];
   type: 'text' | 'file' | 'single-select' | 'multi-select';
 };
+function timeout(delay: number) {
+  return new Promise((res) => setTimeout(res, delay));
+}
 
 export default function QuestionCard({
   id,

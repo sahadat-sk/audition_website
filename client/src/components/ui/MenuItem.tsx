@@ -9,9 +9,9 @@ const menuItemVarients = cva('', {
   variants: {
     variant: {
       default:
-        'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+        'group flex items-center px-2 py-2 text-sm font-medium rounded-md text-onSurface dark:text-onSurfaceDark dark:hover:bg-slate-800 dark:hover:text-white ',
       subHeading:
-        'flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md group hover:text-gray-900 hover:bg-gray-50',
+        'flex items-center px-3 py-2 text-sm font-medium text-onSurface dark:text-onSurfaceDark rounded-md group dark:hover:text-white ',
     },
   },
   defaultVariants: {
@@ -46,7 +46,7 @@ const MenuItem: FC<MenuItemProps> = forwardRef<
           }),
           current
             ? 'bg-gray-100 text-gray-900'
-            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+            : 'text-gray-600  hover:text-gray-900'
         )}
         ref={ref}
       >
