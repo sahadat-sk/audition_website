@@ -41,3 +41,8 @@ export const deleteQuestion = async (id: number) => {
   const response = await axiosPrivate.delete(`${BASE_URL}/questions/${id}`);
   return response.data;
 };
+
+export const getQuestionById = async (id: number) => {
+  const response = await axiosPrivate.get(`${BASE_URL}/questions/${id}`);
+  return response.data?.data?.question;
+};

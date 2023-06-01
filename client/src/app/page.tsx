@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="h-screen">
-      <div className="flex flex-col gap-8 md:gap-0   md:flex-row items-center justify-center md:justify-between h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main className="h-screen ">
+      <div className="flex flex-col items-center justify-center h-full gap-8 px-4 mx-auto md:gap-0 md:flex-row md:justify-between max-w-7xl sm:px-6 lg:px-8">
         <div className="relative w-full md:w-2/3">
           <img
             src="/images/hero.svg"
@@ -14,7 +14,7 @@ export default function Home() {
             alt="hero"
           ></img>
         </div>
-        <div className="flex flex-col gap-2 items-center md:w-1/3">
+        <div className="flex flex-col items-center gap-2 md:w-1/3">
           <LargeHeading>Welcome!</LargeHeading>
           <Paragraph className="text-center">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit
