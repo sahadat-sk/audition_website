@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { unlinkSync } from 'fs';
+import { randomUUID } from 'crypto';
 import {
   CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY,
@@ -17,7 +18,7 @@ export const uploadImage = async (file: string) => {
     const cloudinaryImageUploadResponse = await cloudinary.uploader.upload(
       file,
       {
-        public_id: CLOUDINARY_CLOUD_NAME,
+        public_id: randomUUID(),
       }
     );
     const { url } = cloudinaryImageUploadResponse;

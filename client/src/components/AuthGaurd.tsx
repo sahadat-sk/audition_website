@@ -57,7 +57,6 @@ export function AuthGuard(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth?.user?.email]);
 
-  /* show loading indicator while the auth provider is still initializing */
   if (auth?.user?.email) {
     return <>{props.children}</>;
   }
