@@ -76,6 +76,7 @@ export default function AddQuestionModal({
       reset();
     }
   }, [open]);
+
   useEffect(() => {
     if (type === 'file' || type === 'text') {
       reset({

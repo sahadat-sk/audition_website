@@ -1,5 +1,6 @@
 import useFilePreview from '@/hooks/useFilePreview';
 import { X } from 'lucide-react';
+import Image from 'next/image';
 import React from 'react';
 import { UseFormReset } from 'react-hook-form';
 
@@ -14,10 +15,12 @@ function FilePreview({ file, reset }: FilePreviewProps) {
     <>
       {filePreview ? (
         <div className="flex items-center justify-between w-full gap-2">
-          <img
+          <Image
             src={filePreview as string}
             alt="file preview"
             className="w-full"
+            height={480}
+            width={640}
           />
           <button type="button" onClick={() => reset({ file: null })}>
             <X></X>

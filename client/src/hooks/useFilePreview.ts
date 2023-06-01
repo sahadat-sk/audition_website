@@ -21,7 +21,7 @@ export default function useFilePreview(file: FileList | null | string) {
       console.log(err);
       setImgSrc(null);
     }
-  }, [file, imgSrc]);
+  }, [file]);
 
   return [imgSrc, setImgSrc];
 }
