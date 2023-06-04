@@ -3,17 +3,19 @@
 import { getAllQuestions } from '@/api/questionsApi';
 import MenuItem from './MenuItem';
 import { questionsToSidebarLinks } from '@/helpers/questionConverter';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const AllQuestionsList = () => {
   const [questions, setQuestions] = useState<{ name: string; href: string }[]>(
     []
   );
 
-  getAllQuestions().then((data) => {
-    const secondaryNavigation = questionsToSidebarLinks(data.data.questions);
-    setQuestions(secondaryNavigation);
-  });
+  useEffect(() => {
+    getAllQuestions().then((data) => {
+      const secondaryNavigation = questionsToSidebarLinks(data.data.questions);
+      setQuestions(secondaryNavigation);
+    });
+  }, []);
 
   return (
     <div
