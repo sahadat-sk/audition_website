@@ -32,7 +32,9 @@ export const convertOptionsToFormOptions = (options: string[]) => {
 //   { name: 'Customer migration guides', href: '#' },
 //   { name: 'Profit sharing program', href: '#' },
 // ];
-export const questionsToSidebarLinks = (questions: any) => {
+export const questionsToSidebarLinks = (
+  questions: any
+): { name: string; href: string }[] => {
   return questions.map((question: any) => {
     return {
       name: question.text,

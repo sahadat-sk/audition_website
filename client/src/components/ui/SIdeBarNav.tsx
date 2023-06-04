@@ -1,64 +1,33 @@
-import Image from 'next/image';
-import MenuItem from './MenuItem';
-import ThemeToogle from '../ThemeToogle';
-import { AllQuestionsList } from './AllQuestionsList';
-import HideWhenLoggedOut from '../HideWhenLogedOut';
-import { Suspense, useState } from 'react';
-import { SidebarToogle } from '../SideBarToogle';
+'use client';
 
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'Questions', href: '/questions-admin', current: false },
-  { name: 'Users', href: '#', current: false },
-  { name: 'Quiz', href: '#', current: false },
-];
+import HideWhenLoggedOut from '../HideWhenLogedOut';
+import SlideOver from './SlideOver';
+import { MenuIcon } from 'lucide-react';
+import NavbarContent from './NavbarContent';
+import { useState } from 'react';
+import Button from './Button';
 
 export default function SideBarNav() {
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   return (
     <HideWhenLoggedOut>
-      <SidebarToogle>
-        <div className="absolute md:static flex flex-col pt-1 md:pt-5 pb-4 overflow-y-auto   bg-surface dark:bg-surfaceDark w-[15rem] h-screen ">
-          <div className="flex items-center justify-between px-4">
-            <Image
-              height={32}
-              width={32}
-              className="block w-auto h-8 "
-              src="/images/gluglogo.png"
-              alt="Glug"
-              quality={100}
-            />{' '}
-            <ThemeToogle />
-            {/* For LOGO */}
-          </div>
-          <div className="flex flex-col flex-grow mt-5">
-            <nav
-              className="flex-1 px-2 space-y-8 bg-surface dark:bg-surfaceDark "
-              aria-label="Sidebar"
-            >
-              <div className="space-y-1">
-                {navigation.map((item) => (
-                  <MenuItem
-                    key={item.name}
-                    current={false}
-                    name={item.name}
-                    href={item.href}
-                  />
-                ))}
-              </div>
-              <div className="space-y-1">
-                <h3
-                  className="px-3 text-xs font-semibold tracking-wider text-gray-500 uppercase"
-                  id="projects-headline"
-                >
-                  Questions
-                </h3>
-                {/* @ts-expect-error Async Server Component */}
-                <AllQuestionsList />
-              </div>
-            </nav>
-          </div>
-        </div>
-      </SidebarToogle>
+      <div className="absolute top-0 w-screen bg-surface dark:bg-surfaceDark">
+        <Button
+          type="button"
+          colorVarient={'transparent'}
+          className="px-4 border-none top-2 lg:hidden"
+          onClick={() => setSidebarOpen(true)}
+        >
+          <span className="sr-only">Open sidebar</span>
+          <MenuIcon className="w-6 h-6" aria-hidden="true" />
+        </Button>
+      </div>
+      <div className="absolute hidden md:block md:static flex flex-col pt-1 md:pt-5 pb-4 overflow-y-auto   bg-surface dark:bg-surfaceDark w-[15rem] h-screen ">
+        <SlideOver sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+          <NavbarContent mobile />
+        </SlideOver>
+        <NavbarContent mobile={false} />
+      </div>
     </HideWhenLoggedOut>
   );
 }

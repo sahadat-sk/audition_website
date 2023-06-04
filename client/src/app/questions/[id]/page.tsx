@@ -1,22 +1,25 @@
-import QuestionCard from '@/components/ui/question/QuestionCard';
 import React from 'react';
-import { getAllQuestions, getQuestionById } from '@/api/questionsApi';
+import { getQuestionById } from '@/api/questionsApi';
 import Image from 'next/image';
+import LargeHeading from '@/components/ui/LargeHeading';
 
 const Questions = async (props: any) => {
   const id = props.params.id;
   const question = await getQuestionById(id);
   return (
     <>
-      <div className="w-full h-screen px-4 pt-20 mx-auto overflow-auto max-w-7xl sm:px-6 lg:px-8 bg-surface dark:bg-surfaceDark">
-        <div className="grid grid-flow-row grid-cols-1 gap-2 auto-rows-min "></div>
-        <h2>{question.text}</h2>
-        <Image
-          src={question.file}
-          alt="Question image"
-          height={720}
-          width={1280}
-        />
+      <div className="w-full h-screen px-4 pt-10 mx-auto overflow-auto max-w-7xl sm:px-6 lg:px-8 bg-surface dark:bg-surfaceDark">
+        <LargeHeading size={'sm'} className="mb-4">
+          {question.text}
+        </LargeHeading>
+        {question?.file ? (
+          <Image
+            src={question.file}
+            alt="question image"
+            height={720}
+            width={1280}
+          />
+        ) : null}
       </div>
     </>
   );
