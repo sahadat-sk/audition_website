@@ -1,4 +1,5 @@
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
+import { QUESTION_TYPES } from '../../../globalconfig';
 
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class Question {
@@ -10,7 +11,12 @@ export class Question {
 
   @prop({
     default: 'text',
-    enum: ['text', 'single-select', 'multi-select', 'file'],
+    enum: [
+      QUESTION_TYPES.SINGLE,
+      QUESTION_TYPES.FILE,
+      QUESTION_TYPES.TEXT,
+      QUESTION_TYPES.MULTI,
+    ],
     required: true,
   })
   type: string;

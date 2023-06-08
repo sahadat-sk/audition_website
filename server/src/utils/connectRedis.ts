@@ -8,6 +8,7 @@ const redisClient = createClient({
 const connectRedis = async () => {
   try {
     await redisClient.connect();
+    await redisClient.configSet('maxmemory-policy', 'volatile-lru');
     console.log('Redis client connected...');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {

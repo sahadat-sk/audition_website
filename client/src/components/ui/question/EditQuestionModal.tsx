@@ -14,6 +14,7 @@ import Options from './Options';
 import FilePreview from '../FilePreview';
 import { formSchema } from './AddQuestionModal';
 import { Select } from '../Select';
+import { QUESTION_TYPES } from '../../../../../globalconfig';
 
 export type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -51,7 +52,7 @@ export default function EditQuestionModal({
     setOpen(false);
   };
   useEffect(() => {
-    if (type === 'file' || type === 'text') {
+    if (type === QUESTION_TYPES.FILE || type === QUESTION_TYPES.TEXT) {
       reset({
         type,
         options: [],
@@ -82,14 +83,14 @@ export default function EditQuestionModal({
         <Select
           label="Question Type"
           options={[
-            { key: 'text', value: 'Text' },
-            { key: 'single-select', value: 'Single Select' },
-            { key: 'multi-select', value: 'Multi Select' },
-            { key: 'file', value: 'File' },
+            { key: QUESTION_TYPES.TEXT, value: 'Text' },
+            { key: QUESTION_TYPES.SINGLE, value: 'Single Select' },
+            { key: QUESTION_TYPES.MULTI, value: 'Multi Select' },
+            { key: QUESTION_TYPES.FILE, value: 'File' },
           ]}
           {...register('type')}
         />
-        {type == 'single-select' || type == 'multi-select' ? (
+        {type == QUESTION_TYPES.SINGLE || type == QUESTION_TYPES.MULTI ? (
           <Options control={control} register={register} errors={errors} />
         ) : null}
         <Button colorVarient={'blue'} type="submit">

@@ -8,6 +8,7 @@ import { Pencil, Trash } from 'lucide-react';
 import DeleteQuestionModal from './DeleteQuestionModal';
 import EditQuestionModal from './EditQuestionModal';
 import { convertOptionsToFormOptions } from '@/helpers/questionConverter';
+import { QUESTION_TYPES } from '../../../../../globalconfig';
 
 type QuestionProps = {
   id: number;
