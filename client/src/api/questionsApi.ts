@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { axiosPrivate } from './authApi';
 import { convertQuestionToFormData } from '@/helpers/questionConverter';
 

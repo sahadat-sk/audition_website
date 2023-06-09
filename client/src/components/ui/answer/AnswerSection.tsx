@@ -1,5 +1,5 @@
-import { TextArea } from '../TextArea';
 import SelectOptions from './SelectOptions';
+import TextAnswer from './TextAnswer';
 
 interface AnswerSectionProps {
   type: 'text' | 'file' | 'single-select' | 'multi-select';
@@ -8,18 +8,10 @@ interface AnswerSectionProps {
 
 export const AnswerSection = ({ type, options }: AnswerSectionProps) => {
   if (type === 'text') {
-    return (
-      <>
-        <TextArea className="mb-20" placeholder="Write your answer here..." />
-      </>
-    );
+    return <TextAnswer />;
   }
   if (type == 'single-select' || type === 'multi-select') {
-    return (
-      <>
-        <SelectOptions options={options} type={type} />
-      </>
-    );
+    return <SelectOptions options={options} type={type} />;
   }
   return <p>KONO KAJER NA</p>;
 };

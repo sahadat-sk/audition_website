@@ -1,13 +1,9 @@
 'use client';
 import React from 'react';
-import {
-  Control,
-  FieldErrors,
-  UseFormRegister,
-  useForm,
-} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Button from '../Button';
 
 export const SingleOptionSelectSchema = z.object({
   selectedOptions: z
@@ -30,6 +26,7 @@ export default function SelectOptions({ options, type }: SelectOptionsProps) {
   const {
     register,
     handleSubmit,
+
     formState: { errors, isSubmitting },
   } = useForm<MultiSelectType | SingleSelectType>({
     resolver: zodResolver(
@@ -37,8 +34,13 @@ export default function SelectOptions({ options, type }: SelectOptionsProps) {
         ? MultiOptionSelectSchema
         : SingleOptionSelectSchema
     ),
+    defaultValues: {
+      selectedOptions: ['Likely'],
+    },
   });
-  const onSubmit = (data: any) => alert(JSON.stringify(data));
+  const onSubmit = (data: any) => {
+    console.log('This is data ', data);
+  };
 
   return (
     <fieldset>
@@ -61,7 +63,9 @@ export default function SelectOptions({ options, type }: SelectOptionsProps) {
                   // name={`options`}
                   value={option}
                   type="checkbox"
-                  {...register('selectedOptions')}
+                  {...register('selectedOptions', {
+                    onBlur: handleSubmit(onSubmit),
+                  })}
                   className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                 />
               </div>
@@ -69,7 +73,9 @@ export default function SelectOptions({ options, type }: SelectOptionsProps) {
           ))}
         </div>
         <p>{errors.selectedOptions?.message}</p>
-        <button type="submit">submit</button>
+        <Button colorVarient={'tertiary'} type="submit">
+          submit
+        </Button>
       </form>
     </fieldset>
   );
