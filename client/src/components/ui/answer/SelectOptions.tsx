@@ -1,10 +1,10 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../Button';
-import { useCreateAnswer } from '@/hooks/answers/useAnswers';
+import { useCreateAnswer, useGetAnswer } from '@/hooks/answers/useAnswers';
 
 export const SingleOptionSelectSchema = z.object({
   selectedOptions: z
@@ -29,10 +29,12 @@ export default function SelectOptions({
   options,
   type,
 }: SelectOptionsProps) {
+  const answer = useGetAnswer(questionId);
   const { createAnswerMutation: createAnswer } = useCreateAnswer();
 
   const {
     register,
+    setValue,
     handleSubmit,
 
     formState: { errors, isSubmitting },
@@ -50,6 +52,11 @@ export default function SelectOptions({
     data.questionId = questionId;
     createAnswer(data);
   };
+
+  useEffect(() => {
+    setValue('selectedOptions', answer.data?.data?.selectedOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [answer.data?.data?.selectedOptions]);
 
   return (
     <fieldset>

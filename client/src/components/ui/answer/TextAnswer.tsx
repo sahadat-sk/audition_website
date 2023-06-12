@@ -1,11 +1,13 @@
 'use client';
 import { TextArea } from '../TextArea';
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../Button';
-import { useCreateAnswer } from '@/hooks/answers/useAnswers';
+import { useCreateAnswer, useGetAnswer } from '@/hooks/answers/useAnswers';
+import { getAnswerByQuestionIdAndUserId } from '@/api/answerApi';
+import useAuth from '@/hooks/useAuth';
 
 export const TextAreaSchema = z.object({
   text: z.string().min(1, 'Answer must not be empty!'),
@@ -14,11 +16,13 @@ export const TextAreaSchema = z.object({
 export type TextAreaType = z.infer<typeof TextAreaSchema>;
 
 const TextAnswer = ({ questionId }: { questionId: number }) => {
+  const answer = useGetAnswer(questionId);
   const { createAnswerMutation: createAnswer } = useCreateAnswer();
   const {
     register,
+    watch,
+    setValue,
     handleSubmit,
-
     formState: { errors, isSubmitting },
   } = useForm<TextAreaType>({
     resolver: zodResolver(TextAreaSchema),
@@ -27,6 +31,11 @@ const TextAnswer = ({ questionId }: { questionId: number }) => {
     data.questionId = questionId;
     createAnswer(data);
   };
+
+  useEffect(() => {
+    setValue('text', answer.data?.data?.text);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [answer.data?.data?.text]);
 
   return (
     <>

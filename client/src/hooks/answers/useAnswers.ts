@@ -1,7 +1,7 @@
-import { createAnswer } from '@/api/answerApi';
+import { createAnswer, getAnswerByQuestionIdAndUserId } from '@/api/answerApi';
 import useAuth from '../useAuth';
 import { toast } from 'react-toastify';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 type Answer = {
   text?: string;
@@ -29,4 +29,15 @@ export function useCreateAnswer() {
     },
   });
   return { createAnswerMutation, isLoading };
+}
+
+export function useGetAnswer(questionId: number) {
+  const { auth } = useAuth() as {
+    auth: any;
+  };
+  const questionQuery = useQuery({
+    queryKey: ['answer', questionId],
+    queryFn: () => getAnswerByQuestionIdAndUserId(auth.user.id, questionId),
+  });
+  return questionQuery;
 }

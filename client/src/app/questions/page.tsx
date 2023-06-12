@@ -1,7 +1,6 @@
 import QuestionCard from '@/components/ui/question/QuestionCard';
 import React from 'react';
 import { getAllQuestions } from '@/api/questionsApi';
-import AddQuestion from '@/components/ui/AddQuestion';
 
 const Questions = async () => {
   const data = await getAllQuestions();

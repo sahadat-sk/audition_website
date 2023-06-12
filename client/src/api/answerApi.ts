@@ -23,3 +23,13 @@ export const createAnswer = async (userId: string, answer: Answer) => {
   );
   return response.data;
 };
+
+export const getAnswerByQuestionIdAndUserId = async (
+  userId: number,
+  questionId: number
+) => {
+  const response = await axios.get(
+    `${BASE_URL}/answers/${userId}/${questionId}`
+  );
+  return response.data;
+};
