@@ -10,13 +10,19 @@ export const createOrUpdateAnswer = async (
   localFilePath?: string
 ) => {
   try {
+    console.log(input);
     if (localFilePath) {
       const url = await uploadImage(localFilePath);
       input.file = url;
     }
     if (input.selectedOptions) {
-      input.selectedOptions = JSON.parse(input.selectedOptions.toString());
+      try {
+        input.selectedOptions = JSON.parse(input.selectedOptions?.toString());
+      } catch (err) {
+        input.selectedOptions = [];
+      }
     }
+
     const answer = await answerModel.findOneAndUpdate(filter, input, {
       new: true,
       upsert: true,

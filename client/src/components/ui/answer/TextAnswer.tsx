@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../Button';
+import { useCreateAnswer } from '@/hooks/answers/useAnswers';
 
 export const TextAreaSchema = z.object({
   text: z.string().min(1, 'Answer must not be empty!'),
@@ -12,7 +13,8 @@ export const TextAreaSchema = z.object({
 
 export type TextAreaType = z.infer<typeof TextAreaSchema>;
 
-const TextAnswer = () => {
+const TextAnswer = ({ questionId }: { questionId: number }) => {
+  const { createAnswerMutation: createAnswer } = useCreateAnswer();
   const {
     register,
     handleSubmit,
@@ -22,7 +24,8 @@ const TextAnswer = () => {
     resolver: zodResolver(TextAreaSchema),
   });
   const onSubmit = (data: any) => {
-    console.log('Changed', data);
+    data.questionId = questionId;
+    createAnswer(data);
   };
 
   return (

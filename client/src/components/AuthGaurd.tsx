@@ -33,6 +33,7 @@ export function AuthGuard(props: Props) {
           },
         });
         const user = {
+          id: data?.data?.user?._id,
           role: data?.data?.user?.role,
           email: data?.data?.user?.email,
           username: data?.data?.user?.username,

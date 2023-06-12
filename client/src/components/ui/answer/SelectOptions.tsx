@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../Button';
+import { useCreateAnswer } from '@/hooks/answers/useAnswers';
 
 export const SingleOptionSelectSchema = z.object({
   selectedOptions: z
@@ -20,9 +21,16 @@ export type MultiSelectType = z.infer<typeof MultiOptionSelectSchema>;
 interface SelectOptionsProps {
   options: string[];
   type: 'single-select' | 'multi-select';
+  questionId: number;
 }
 
-export default function SelectOptions({ options, type }: SelectOptionsProps) {
+export default function SelectOptions({
+  questionId,
+  options,
+  type,
+}: SelectOptionsProps) {
+  const { createAnswerMutation: createAnswer } = useCreateAnswer();
+
   const {
     register,
     handleSubmit,
@@ -39,7 +47,8 @@ export default function SelectOptions({ options, type }: SelectOptionsProps) {
     },
   });
   const onSubmit = (data: any) => {
-    console.log('This is data ', data);
+    data.questionId = questionId;
+    createAnswer(data);
   };
 
   return (

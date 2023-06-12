@@ -22,7 +22,11 @@ const Questions = async (props: any) => {
             width={1280}
           />
         ) : null}
-        <AnswerSection type={question.type} options={question.options} />
+        <AnswerSection
+          questionId={id}
+          type={question.type}
+          options={question.options}
+        />
       </div>
     </>
   );

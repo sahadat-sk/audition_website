@@ -10,7 +10,7 @@ type Answer = {
   selectedOptions?: string[];
 };
 
-export const postAnswer = async (userId: string, answer: Answer) => {
+export const createAnswer = async (userId: string, answer: Answer) => {
   const answerFormData = convertAnswerToFormData(answer);
   const response = await axios.put(
     `${BASE_URL}/answers/${userId}`,
