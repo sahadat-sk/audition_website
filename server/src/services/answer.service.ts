@@ -3,6 +3,7 @@ import answerModel, { Answer } from '../models/answer.model';
 import { uploadImage } from './coudinary.service';
 import { Ref } from '@typegoose/typegoose';
 import { User } from '../models/user.model';
+import { Question } from '../models/question.model';
 
 export const createOrUpdateAnswer = async (
   filter: FilterQuery<Answer>,
@@ -39,5 +40,13 @@ export const getAllAnswersByUserId = async (userId: Ref<User>) => {
   for (const item of result) {
     await item.populate('questionId');
   }
+  return result;
+};
+
+export const getAnswerByQuestionAndUserId = async (
+  userId: Ref<User>,
+  questionId: Ref<Question>
+) => {
+  const result = await answerModel.findOne({ questionId, userId });
   return result;
 };
