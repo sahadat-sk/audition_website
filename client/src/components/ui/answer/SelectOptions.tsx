@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,9 +30,12 @@ export default function SelectOptions({
   options,
   type,
 }: SelectOptionsProps) {
-  const debouncedApiCall = debounce((func) => {
-    func();
-  }, 250);
+  const debouncedApiCall = useCallback(
+    debounce((func) => {
+      func();
+    }, 250),
+    []
+  );
 
   const answer = useGetAnswer(questionId);
   const { createAnswerMutation: createAnswer } = useCreateAnswer();

@@ -1,6 +1,6 @@
 'use client';
 import { TextArea } from '../TextArea';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,9 +15,13 @@ export const TextAreaSchema = z.object({
 export type TextAreaType = z.infer<typeof TextAreaSchema>;
 
 const TextAnswer = ({ questionId }: { questionId: number }) => {
-  const debouncedApiCall = debounce((func) => {
-    func();
-  }, 1000);
+  const debouncedApiCall = useCallback(
+    debounce((func) => {
+      console.log('calling this function');
+      func();
+    }, 1000),
+    []
+  );
 
   const answer = useGetAnswer(questionId);
   const { createAnswerMutation: createAnswer } = useCreateAnswer();
@@ -40,12 +44,12 @@ const TextAnswer = ({ questionId }: { questionId: number }) => {
 
   useEffect(() => {
     reset({ text: answer.data?.data?.text });
-    console.log('resetting.....');
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answer.data?.data?.text]);
 
   const handleSave = () => {
+    console.log('handle Save');
     debouncedApiCall(handleSubmit(onSubmit));
   };
 

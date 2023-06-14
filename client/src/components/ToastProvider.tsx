@@ -13,7 +13,7 @@ const contextClass = {
   error: 'bg-red text-onRed dark:bg-redDark dark:text-onRedDark',
   info: 'bg-gray-600',
   warning: 'bg-orange-400',
-  default: 'bg-bg text-onBg dark:bg-bgDark dark:text-onBgDark',
+  default: 'bg-bg text-onBg dark:bg-bgDark dark:text-onBgDark text-sm',
 };
 
 export default function ToastProvider({ children }: Props) {

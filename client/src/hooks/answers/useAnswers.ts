@@ -21,11 +21,11 @@ export function useCreateAnswer() {
     unknown
   >((answer: Answer) => createAnswer(auth.user.id, answer), {
     onSuccess: () => {
-      toast('Question Created', { type: 'success' });
+      toast('Saving...', { type: 'default' });
     },
     onError: (error) => {
       console.error(error);
-      toast('Failed to create Question', { type: 'error' });
+      toast('Failed to save!!!', { type: 'error' });
     },
   });
   return { createAnswerMutation, isLoading };
