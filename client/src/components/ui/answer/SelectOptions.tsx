@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../Button';
 import { useCreateAnswer, useGetAnswer } from '@/hooks/answers/useAnswers';
+import { debounce } from 'lodash';
 
 export const SingleOptionSelectSchema = z.object({
   selectedOptions: z
@@ -29,6 +30,10 @@ export default function SelectOptions({
   options,
   type,
 }: SelectOptionsProps) {
+  const debouncedApiCall = debounce((func) => {
+    func();
+  }, 250);
+
   const answer = useGetAnswer(questionId);
   const { createAnswerMutation: createAnswer } = useCreateAnswer();
 
@@ -44,9 +49,6 @@ export default function SelectOptions({
         ? MultiOptionSelectSchema
         : SingleOptionSelectSchema
     ),
-    defaultValues: {
-      selectedOptions: ['Likely'],
-    },
   });
   const onSubmit = (data: any) => {
     data.questionId = questionId;
@@ -57,6 +59,10 @@ export default function SelectOptions({
     setValue('selectedOptions', answer.data?.data?.selectedOptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answer.data?.data?.selectedOptions]);
+
+  const handleSave = () => {
+    debouncedApiCall(handleSubmit(onSubmit));
+  };
 
   return (
     <fieldset>
@@ -80,7 +86,8 @@ export default function SelectOptions({
                   value={option}
                   type="checkbox"
                   {...register('selectedOptions', {
-                    onBlur: handleSubmit(onSubmit),
+                    // onBlur: handleSubmit(onSubmit),
+                    onChange: handleSave,
                   })}
                   className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                 />

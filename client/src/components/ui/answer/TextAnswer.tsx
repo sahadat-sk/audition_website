@@ -1,13 +1,12 @@
 'use client';
 import { TextArea } from '../TextArea';
 import React, { useEffect } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../Button';
 import { useCreateAnswer, useGetAnswer } from '@/hooks/answers/useAnswers';
-import { getAnswerByQuestionIdAndUserId } from '@/api/answerApi';
-import useAuth from '@/hooks/useAuth';
+import debounce from 'lodash/debounce';
 
 export const TextAreaSchema = z.object({
   text: z.string().min(1, 'Answer must not be empty!'),
@@ -16,26 +15,39 @@ export const TextAreaSchema = z.object({
 export type TextAreaType = z.infer<typeof TextAreaSchema>;
 
 const TextAnswer = ({ questionId }: { questionId: number }) => {
+  const debouncedApiCall = debounce((func) => {
+    func();
+  }, 1000);
+
   const answer = useGetAnswer(questionId);
   const { createAnswerMutation: createAnswer } = useCreateAnswer();
   const {
     register,
-    watch,
-    setValue,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<TextAreaType>({
     resolver: zodResolver(TextAreaSchema),
+    defaultValues: {
+      text: '',
+    },
   });
+
   const onSubmit = (data: any) => {
     data.questionId = questionId;
     createAnswer(data);
   };
 
   useEffect(() => {
-    setValue('text', answer.data?.data?.text);
+    reset({ text: answer.data?.data?.text });
+    console.log('resetting.....');
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answer.data?.data?.text]);
+
+  const handleSave = () => {
+    debouncedApiCall(handleSubmit(onSubmit));
+  };
 
   return (
     <>
@@ -44,7 +56,8 @@ const TextAnswer = ({ questionId }: { questionId: number }) => {
           className="mb-20"
           placeholder="Write your answer here..."
           {...register('text', {
-            onBlur: handleSubmit(onSubmit),
+            onBlur: handleSave,
+            onChange: handleSave,
           })}
         />
         <Button>Submit</Button>
