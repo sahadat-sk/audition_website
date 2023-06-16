@@ -1,5 +1,6 @@
 import SelectOptions from './SelectOptions';
 import TextAnswer from './TextAnswer';
+import UploadFileSection from './UploadFileSection';
 
 interface AnswerSectionProps {
   type: 'text' | 'file' | 'single-select' | 'multi-select';
@@ -20,5 +21,5 @@ export const AnswerSection = ({
       <SelectOptions questionId={questionId} options={options} type={type} />
     );
   }
-  return <p>KONO KAJER NA</p>;
+  return <UploadFileSection questionId={questionId} />;
 };

@@ -51,14 +51,14 @@ export default function EditQuestionModal({
     editQuestion({ id, question: data });
     setOpen(false);
   };
-  useEffect(() => {
-    if (type === QUESTION_TYPES.FILE || type === QUESTION_TYPES.TEXT) {
-      reset({
-        type,
-        options: [],
-      });
-    }
-  }, [type]);
+  // useEffect(() => {
+  //   if (type === QUESTION_TYPES.FILE || type === QUESTION_TYPES.TEXT) {
+  //     reset({
+  //       type,
+  //       options: [],
+  //     });
+  //   }
+  // }, [type]);
 
   const file = watch('file');
   return (
