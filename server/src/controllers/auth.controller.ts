@@ -19,8 +19,8 @@ import {
 } from '../services/session.service';
 
 const accessTokenCookieOptions: CookieOptions = {
-  httpOnly: true,
-  sameSite: 'lax',
+  httpOnly: false,
+  sameSite: false,
   maxAge: config.get<number>('accessTokenExpiresIn') * 60 * 1000,
   expires: new Date(
     Date.now() + config.get<number>('accessTokenExpiresIn') * 60 * 1000
@@ -28,7 +28,7 @@ const accessTokenCookieOptions: CookieOptions = {
 };
 const refreshTokenCookieOptions: CookieOptions = {
   httpOnly: true,
-  sameSite: 'lax',
+  sameSite: false,
   maxAge: config.get<number>('refreshTokenExpiresIn') * 60 * 1000,
   expires: new Date(
     Date.now() + config.get<number>('refreshTokenExpiresIn') * 60 * 1000
@@ -118,7 +118,6 @@ export const refreshAccessTokenHandler = async (
 ) => {
   try {
     const refresh_token = req.cookies.refresh_token as string;
-
     logger.debug(`refresh_token from cookie ${req.cookies.refresh_token}`);
 
     const decoded = verifyJWT<{ sub: string }>(refresh_token, 'refresh');
@@ -127,17 +126,20 @@ export const refreshAccessTokenHandler = async (
 
     const msg = 'Could not refresh access token';
     if (!decoded) {
+      console.log('could not decode');
       return next(createHttpError(403, msg));
     }
     const session = await redisClient.get(decoded.sub);
 
     if (!session) {
+      console.log('session fault');
       return next(createHttpError(403, msg));
     }
 
     const user = await findUserById(JSON.parse(session)._id);
 
     if (!user) {
+      console.log('user fault');
       return next(createHttpError(403, msg));
     }
 

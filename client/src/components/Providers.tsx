@@ -4,6 +4,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from 'next-themes';
 import { ReactNode } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ export default function Providers({ children }: Props) {
       <ThemeProvider attribute="class" defaultTheme="system">
         <QueryClientProvider client={queryClient}>
           <AuthProvider>{children}</AuthProvider>
+          <ReactQueryDevtools initialIsOpen={true} />
         </QueryClientProvider>
       </ThemeProvider>
     </>

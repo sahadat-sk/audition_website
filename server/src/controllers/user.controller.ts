@@ -23,6 +23,7 @@ export const getAllUsersHandler = async (
       .status(200)
       .json({ status: 'success', result: users.length, data: { users } });
   } catch (err) {
+    console.error(err);
     next(err);
   }
 };

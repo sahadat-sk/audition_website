@@ -1,4 +1,7 @@
 import axios from 'axios';
+
+import axios2 from '../lib/axios';
+
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const axiosPrivate = axios.create({
@@ -12,7 +15,12 @@ export const axiosPrivate = axios.create({
 axiosPrivate.defaults.withCredentials = true;
 
 export const refresAccessToken = async () => {
-  const response = await axiosPrivate.get('auth/refresh');
+  const response = await axios2.get(`/auth/refresh`, {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   return response.data;
 };
 
@@ -30,6 +38,7 @@ axiosPrivate.interceptors.response.use(
       console.log('Access token refreshed!', res.access_token);
       return axiosPrivate(originalRequest);
     } else {
+      console.error(error);
       return Promise.reject(error);
     }
   }
@@ -54,4 +63,14 @@ export const logout = async () => {
 export const getMe = async () => {
   const response = await axiosPrivate.get(`${BASE_URL}/users/me`);
   return response.data;
+};
+
+export const getAllUsers = async (access_token: string) => {
+  const { data } = await axios.get(`${BASE_URL}/users/`, {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return data;
 };

@@ -3,6 +3,7 @@ import createHttpError from 'http-errors';
 import { findUserById } from '../services/user.service';
 import redisClient from '../utils/connectRedis';
 import { verifyJWT } from '../utils/JWT';
+
 export const deserializeUser = async (
   req: Request,
   res: Response,
@@ -10,17 +11,22 @@ export const deserializeUser = async (
 ) => {
   try {
     let accessToken;
-    console.log(req.headers.authorization);
+
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith('Bearer')
     ) {
       accessToken = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies.access_token) {
+    } else {
+      const access = req.cookies.refresh_token as string;
+      console.log('refresh token in deserializeuser.ts ', req.cookies);
       accessToken = req.cookies.access_token;
     }
     if (!accessToken) {
-      return next(createHttpError(401, 'You are not logged in'));
+      // console.error(req.headers.cookies);
+      return next(
+        createHttpError(401, 'You are not logged in, no access token found')
+      );
     }
 
     const decoded = verifyJWT<{ sub: string }>(accessToken, 'access');
@@ -41,6 +47,7 @@ export const deserializeUser = async (
     }
 
     res.locals.user = user;
+    console.log('DESERIALIZATION DONE !!!!!');
 
     next();
   } catch (err) {
